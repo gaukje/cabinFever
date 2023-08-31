@@ -5,7 +5,7 @@
 </head>
 <body>
     <header>
-        <h1>CabinRent - Your Ultimate Cabin Rental Platform</h1>
+        <h1>CabinFever - Your Ultimate Cabin Rental Platform</h1>
     </header>
     <div class="container">
         <h2>Key Features</h2>
