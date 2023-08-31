@@ -1,14 +1,73 @@
-CabinFever- Your Ultimate Cabin Rental Platform
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CabinRent - Your Ultimate Cabin Rental Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
 
-Welcome to CabinRent, your go-to platform for discovering and renting picturesque cabins across the stunning landscapes of Norway. Whether you're seeking a tranquil retreat in the mountains, a cozy escape by the fjords, or an adventurous stay in the wilderness, CabinRent has you covered. This platform is designed to connect cabin owners with wanderlust-driven travelers, offering a seamless and immersive cabin rental experience.
+        header {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
 
-Key Features
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
 
-Browse and Discover: Explore a diverse range of cabins available for rent, each with its unique charm and location. Our user-friendly interface allows you to filter cabins based on your preferences, ensuring you find the perfect match.
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
 
-Listing Cabins: Are you a cabin owner looking to share your piece of paradise? Easily create detailed listings for your cabins, showcasing their amenities, surroundings, and availability. Your cabin will be presented beautifully to potential renters.
-Secure Transactions: Our built-in payment system ensures secure and hassle-free transactions between cabin owners and renters. You can book your dream cabin with confidence, knowing that your financial information is protected.
+        h2 {
+            font-size: 24px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
 
-Real-time Communication: Stay connected with cabin owners through our messaging system. Have questions about the amenities? Need recommendations for nearby activities? Get all the information you need directly from the source.
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
 
-User Profiles: Create and manage your user profile to keep track of your bookings, favorite cabins, and personalized settings. Share your travel experiences and leave reviews for the cabins you've visited.
+        p {
+            margin-bottom: 15px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 5px;
+            font-family: Courier, monospace;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CabinRent - Your Ultimate Cabin Rental Platform</h1>
+    </header>
+    <div class="container">
+        <h2>Key Features</h2>
+        <ul>
+            <li>Browse and Discover: Explore a diverse range of cabins available for rent.</li>
+            <li>Listing Cabins: Easily create detailed listings for your cabins.</li>
+            <li>Secure Transactions: Built-in payment system for secure and hassle-free transactions.</li>
+            <li>Real-time Communication: Stay connected with cabin owners through messaging.</li>
+            <li>User Profiles: Create and manage your user profile to keep track of your bookings and more.</li>
+        </ul>
+
+        <p>Start your cabin adventure with CabinRent today and experience Norway's natural beauty like never before!</p>
+    </div>
+</body>
+</html>
