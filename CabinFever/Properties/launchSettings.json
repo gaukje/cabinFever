@@ -1,4 +1,4 @@
-﻿{
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
@@ -10,12 +10,12 @@
   "profiles": {
     "CabinFever": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "launchBrowser": true,
       "applicationUrl": "https://localhost:7266;http://localhost:5147",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "dotnetRunMessages": true
     },
     "IIS Express": {
       "commandName": "IISExpress",
