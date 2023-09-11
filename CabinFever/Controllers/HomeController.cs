@@ -1,8 +1,8 @@
-﻿using HouseRentingSystemSLAyer.Models;
+﻿using CabinFever.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace HouseRentingSystemSLAyer.Controllers
+namespace CabinFever.Controllers
 {
     public class HomeController : Controller
     {
@@ -18,7 +18,7 @@ namespace HouseRentingSystemSLAyer.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Hytter()
         {
             return View();
         }

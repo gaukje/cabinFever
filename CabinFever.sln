@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34009.444
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseRentingSystemSLAyer", "HouseRentingSystemSLAyer\HouseRentingSystemSLAyer.csproj", "{AC68CFA7-1100-42BF-9B54-38007608FC5C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CabinFever", "CabinFever\CabinFever.csproj", "{AC68CFA7-1100-42BF-9B54-38007608FC5C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

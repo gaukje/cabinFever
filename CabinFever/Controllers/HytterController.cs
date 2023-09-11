@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace HouseRentingSystemSLAyer.Controllers
+namespace CabinFever.Controllers
 {
-    public class ItemController : Controller
+    public class HytterController : Controller
     {
         public IActionResult Index()
         {

@@ -1,4 +1,4 @@
-namespace HouseRentingSystemSLAyer.Models
+namespace CabinFever.Models
 {
     public class ErrorViewModel
     {
