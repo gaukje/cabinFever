@@ -23,7 +23,11 @@ namespace CabinFever.Controllers
             return View();
         }
 
-        public IActionResult Omoss()
+        public IActionResult OmOss()
+        {
+            return View();
+        }
+        public IActionResult MinSide()
         {
             return View();
         }

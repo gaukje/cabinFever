@@ -2,7 +2,7 @@
 
 namespace CabinFever.Controllers
 {
-    public class MinSideController : Controller
+    public class OmossController : Controller
     {
         public IActionResult Index()
         {
