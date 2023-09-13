@@ -3,6 +3,31 @@
 }
 
 <partial name="_Header" />
+
+<!-- Banner video with text -->
+<div class ="banner">
+    <!-- The container of the video -->
+    <div class="banner-container">
+        <!-- The video -->
+        <video autoplay muted loop id="background-video">
+            <source src="~/videos/winter_-_15650 (540p).mp4" type="video/mp4"> @* https://pixabay.com/videos/winter-cottage-house-snow-nature-15650/ *@
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <!-- The container of the text -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12 d-flex align-items-center justify-content-center" style="min-height: 500px;">
+                <div class="text-center">
+                    <!-- The text -->
+                    <h1 class="text-white">Add Text</h1>
+                    <p class="text-white">Add Text</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
