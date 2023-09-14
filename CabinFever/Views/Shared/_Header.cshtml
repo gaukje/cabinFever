@@ -19,9 +19,16 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="MinSide">Min side</a>
-                    </li>
+                    <!-- Brukes for å sjekke om brukeren er logget inn alt. Hvis ikke gå vis Logg Inn istedenfor -->
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="MinSide">Min side</a></li>
+                    }
+                    else
+                    {
+                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LoggInn">Logg inn</a></li>
+                    }
                 </ul>
             </div>
         </div>
