@@ -1,4 +1,9 @@
-﻿<header class="fixed-top">
+﻿@{
+    var controller = Context.Request.RouteValues["Controller"];
+    var action = Context.Request.RouteValues["Action"];
+}
+
+<header class="fixed-top">
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container-fluid">
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CabinFever</a>
@@ -12,10 +17,10 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Hjem</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Item" asp-action="Grid">Hytter</a>
+                        <a class="nav-link text-dark @(controller.ToString() == "Item" && action.ToString() == "Grid" ? "fw-bold" : "")" asp-area="" asp-controller="Item" asp-action="Grid">Hytter</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="OmOss">Om oss</a>
+                        <a class="nav-link text-dark @(controller.ToString() == "Home" && action.ToString() == "OmOss" ? "fw-bold" : "")" asp-area="" asp-controller="Home" asp-action="OmOss">Om oss</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
@@ -23,11 +28,12 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="MinSide">Min side</a></li>
+                            <a class="nav-link text-dark @(controller.ToString() == "Home" && action.ToString() == "MinSide" ? "fw-bold" : "")" asp-area="" asp-controller="Home" asp-action="MinSide">Min side</a>
+                        </li>
                     }
                     else
                     {
-                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LoggInn">Logg inn</a></li>
+                        <li><a class="nav-link text-dark @(controller.ToString() == "Account" && action.ToString() == "LoggInn" ? "fw-bold" : "")" asp-area="" asp-controller="Account" asp-action="LoggInn">Logg inn</a></li>
                     }
                 </ul>
             </div>
