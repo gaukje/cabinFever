@@ -4,23 +4,25 @@ using System.Linq;
 using System.Threading.Tasks;
 using CabinFever.Models;
 using Microsoft.AspNetCore.Mvc;
+using CabinFever.ViewModels;
+
 
 namespace CabinFever.Controllers;
 
 public class ItemController : Controller
 {
-    public IActionResult Table()
-    {
-        var items = GetItems();
-        ViewBag.CurrentViewName = "Table";
-        return View(items);
-    }
+    //public IActionResult Table()
+    //{
+        //var items = GetItems();
+        //ViewBag.CurrentViewName = "Table";
+        //return View(items);
+    //}
 
     public IActionResult Grid()
     {
         var items = GetItems();
-        ViewBag.CurrentViewName = "Grid";
-        return View(items);
+        var itemListViewModel = new ItemListViewModel(items, "Grid");
+        return View(itemListViewModel);
     }
 
     public List<Item> GetItems()
