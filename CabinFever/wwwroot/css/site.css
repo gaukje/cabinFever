@@ -14,10 +14,14 @@ html {
 }
 
 body {
+<<<<<<< HEAD
     margin-bottom: 60px;
     overflow-x: hidden;
     background-color: #eeeeee;
     font-family: 'Lora', serif;
+=======
+  overflow-x: hidden;
+>>>>>>> 114c8b77f60491b97848315717eff91908e48743
 }
 
 .banner {
@@ -95,4 +99,8 @@ body {
 
 .container {
     flex: 1;
+}
+
+.title {
+    margin-top: 60px;
 }
