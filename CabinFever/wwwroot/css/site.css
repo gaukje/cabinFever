@@ -1,5 +1,5 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
@@ -14,13 +14,15 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
-  overflow-x: hidden;
+    margin-bottom: 60px;
+    overflow-x: hidden;
+    background-color: #eeeeee;
+    font-family: 'Lora', serif;
 }
 
 .banner {
     width: 100vw;
-    height: 500px;
+    height: 700px;
     overflow: hidden;
     position: relative;
     left: calc(-50vw + 50%);
@@ -34,6 +36,55 @@ body {
     height: 100%;
     z-index: -1;
     filter: brightness(95%)
+}
+
+.banner-link {
+    margin: 50px auto auto auto;
+}
+
+.banner-link a{
+    text-decoration: none;
+    padding: 10px 20px;
+    color: white;
+    background-color: #1d2420;
+    transition: 0.5s;
+    border: 1px solid white;
+}
+
+.banner-link a:hover {
+    background-color: white;
+    color: black;
+}
+
+.welcome-container {
+    padding: 50px;
+    margin: auto;
+    width: 75%;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+}
+
+.line {
+    flex-grow: 1;
+    height: 0.75px;
+    background-color: black; /* Color of the lines */
+}
+
+.symbol {
+    padding: 0 10px; /* Adjust the spacing around the symbol */
+    font-size: 20px; /* Adjust the symbol's font size */
+    color: black; /* Color of the symbol */
+    user-select: none;
+}
+
+.carousel-text-container {
+    background-color: white;
+    position: relative;
+    top: -20px;
+    padding: 20px 10px;
 }
 
 body {
