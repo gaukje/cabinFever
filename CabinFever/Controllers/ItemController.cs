@@ -23,6 +23,16 @@ public class ItemController : Controller
         var itemListViewModel = new ItemListViewModel(items, "Grid");
         return View(itemListViewModel);
     }
+
+    public async Task<IActionResult> Details(int id)
+    {
+        var item = await _itemDbContext.Items.FindAsync(id);
+        if (item == null)
+        {
+            return NotFound();
+        }
+        return View(item);
+    }
 }
 
 
