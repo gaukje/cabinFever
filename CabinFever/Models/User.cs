@@ -10,5 +10,7 @@ namespace CabinFever.Models
         public string Brukernavn { get; set; }
         public string Epost { get; set; }
         public string Passord { get; set; }
+        // navigation property
+        public virtual List<Order>? Orders { get; set; }
     }
 }

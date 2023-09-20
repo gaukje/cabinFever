@@ -11,5 +11,7 @@
         public string? Location { get; set; }
         public string? ImageUrl { get; set; }
         public Boolean? IsAvailable { get; set; }
+        // navigation property
+        public virtual List<OrderItem>? OrderItems { get; set; }
     }
 }
