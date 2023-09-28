@@ -2,8 +2,12 @@ using CabinFever.Models;
 using Microsoft.EntityFrameworkCore;
 using CabinFever.DAL;
 using Serilog;
+using Serilog.Events;
+using System;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("ItemDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ItemDbContextConnection' not found.");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -14,7 +18,13 @@ builder.Services.AddDbContext<ItemDbContext>(options =>
         builder.Configuration["ConnectionStrings:ItemDbContextConnection"]);
 });
 
+builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddEntityFrameworkStores<ItemDbContext>();
+
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
+
+builder.Services.AddRazorPages();
+builder.Services.AddSession();
 
 var loggerConfiguration = new LoggerConfiguration()
     .MinimumLevel.Information() // nivåer: trace, info, warning, error, fatal
@@ -40,6 +50,12 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseSession();
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseAuthentication();
+
 app.UseRouting();
 
 app.UseAuthorization();
@@ -47,5 +63,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorPages();
 
 app.Run();
