@@ -72,8 +72,10 @@ public class DBInit
             foreach (var orderItem in orderItems)
             {
                 var item = context.Items.Find(orderItem.ItemId);
-                orderItem.OrderItemPrice = orderItem.Price;
+                orderItem.OrderItemPrice = orderItem.AmountNights * item?.PricePerNight ?? 0;
             }
+            context.AddRange(orderItems);
+            context.SaveChanges();
         }
     }
 }
