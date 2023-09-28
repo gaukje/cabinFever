@@ -61,7 +61,7 @@ public class DBInit
             context.SaveChanges();
         }
 
-        if (!context.Orders.Any())
+        if (!context.OrderItems.Any())
         {
             var orderItems = new List<OrderItem>
             {

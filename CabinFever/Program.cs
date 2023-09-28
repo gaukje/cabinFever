@@ -12,6 +12,12 @@ var connectionString = builder.Configuration.GetConnectionString("ItemDbContextC
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddControllers().AddNewtonsoftJson(options => 
+{
+    options.SerializerSettings.ReferenceLoopHandling =
+    Newtonsoft.Json.ReferenceLoopHandling.Ignore; 
+    });
+
 builder.Services.AddDbContext<ItemDbContext>(options =>
 {
     options.UseSqlite(
