@@ -54,8 +54,26 @@ public class DBInit
         {
             var users = new List<User>
             {
-
+                new User { Navn = "Alice Hansen"},
+                new User { Navn = "Bob Johansen"},
             };
+            context.AddRange(users);
+            context.SaveChanges();
+        }
+
+        if (!context.Orders.Any())
+        {
+            var orderItems = new List<OrderItem>
+            {
+                new OrderItem { ItemId = 1, AmountNights = 2, OrderId = 1},
+                new OrderItem { ItemId = 2, AmountNights = 1, OrderId = 1},
+                new OrderItem { ItemId = 3, AmountNights = 3, OrderId = 2},
+            };
+            foreach (var orderItem in orderItems)
+            {
+                var item = context.Items.Find(orderItem.ItemId);
+                orderItem.OrderItemPrice = orderItem.Price;
+            }
         }
     }
 }
