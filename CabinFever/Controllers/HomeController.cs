@@ -29,6 +29,7 @@ namespace CabinFever.Controllers
         }
         public IActionResult MinSide()
         {
+
             return View();
         }
 
