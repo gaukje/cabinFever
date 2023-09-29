@@ -21,5 +21,30 @@ public class ItemRepository : IItemRepository
     {
         return await _db.Items.FindAsync(id);
     }
+
+    public async Task Create(Item item)
+    {
+        _db.Items.Add(item);
+        await _db.SaveChangesAsync();
+    }
+
+    public async Task Update(Item item)
+    {
+        _db.Items.Update(item);
+        await _db.SaveChangesAsync();
+    }
+
+    public async Task<bool> Delete(int id)
+    {
+        var item = await _db.Items.FindAsync(id);
+        if (item == null)
+        {
+            return false;
+        }
+
+        _db.Items.Remove(item);
+        await _db.SaveChangesAsync();
+        return true;
+    }
 }
 

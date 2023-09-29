@@ -37,7 +37,64 @@ public class ItemController : Controller
         return View(item);
     }
 
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View();
+    }
 
+    [HttpPost]
+    public async Task<IActionResult> Create(Item item)
+    {
+        if (ModelState.IsValid)
+        {
+            await _itemRepository.Create(item);
+                return RedirectToAction(nameof(Grid));
+        }
+
+        return View(item);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Update(int id)
+    {
+        var item = await _itemRepository.GetItemById(id);
+        if (item ==null)
+        {
+            return NotFound();
+        }
+        return View(item);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Update(Item item)
+    {
+        if (ModelState.IsValid)
+        {
+            await _itemRepository.Update(item);
+            return RedirectToAction(nameof(Grid));
+        }
+
+        return View(item);
+    }
+
+    [HttpGet]
+    public async Task <IActionResult> Delete(int id)
+    {
+        var item = await _itemRepository.GetItemById(id);
+        if (item == null)
+        {
+            return NotFound();
+        }
+        return View(item);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        await _itemRepository.Delete(id);
+        return RedirectToAction(nameof(Grid));
+    }
 }
 
 
