@@ -40,7 +40,7 @@ public class OrderController : Controller
             OrderSelectList = orders.Select(order => new SelectListItem 
             { 
                 Value = order.OrderId.ToString(),
-                Text = "Order " + order.OrderId.ToString() + ", Date: " + Order.OrderDate + ", " +
+                Text = "Order " + order.OrderId.ToString() + ", Date: " + order.OrderDate + ", " +
                 "Customer: " + order.User.Name
             }).ToList()
         };
@@ -70,7 +70,7 @@ public class OrderController : Controller
             };
             newOrderItem.OrderItemPrice = orderItem.AmountNights * newOrderItem.Item.PricePerNight;
 
-            _itemDbContext.OrderItems.AddAdd(newOrderItem);
+            _itemDbContext.OrderItems.Add(newOrderItem);
             await _itemDbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Table));
         }
