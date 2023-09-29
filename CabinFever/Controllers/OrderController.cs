@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using CabinFever.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CabinFever.DAL;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CabinFever.Controllers;
 
@@ -22,6 +23,7 @@ public class OrderController : Controller
         return View(orders);
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> CreateOrderItem()
     {
@@ -47,6 +49,7 @@ public class OrderController : Controller
         return View(createOrderItemViewModel);
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> CreateOrderItem(OrderItem orderItem)
     {
