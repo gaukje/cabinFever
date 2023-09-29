@@ -5,7 +5,7 @@ namespace CabinFever.Models
 {
     public class Item
     {
-        public int ItemId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         [Required]
         public decimal PricePerNight { get; set; }
