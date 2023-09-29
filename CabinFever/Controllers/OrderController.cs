@@ -1,0 +1,43 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using CabinFever.Models;
+using Microsoft.EntityFrameworkCore;
+using CabinFever.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using CabinFever.DAL;
+
+namespace CabinFever.Controllers;
+
+public class OrderController : Controller
+{
+    private readonly ItemDbContext _itemDbContext;
+
+    public OrderController(ItemDbContext itemDbContext)
+    {
+        _itemDbContext = itemDbContext;
+    }
+
+    public async Task<IActionResult> Table()
+    {
+        List<Order> orders = await _itemDbContext.Orders.ToListAsync();
+        return View(orders);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> CreateOrderItem()
+    {
+        var items = await _itemDbContext.Items.ToListAsync();
+        var orders = await _itemDbContext.Orders.ToListAsync();
+        var createOrderItemViewModel = new CreateOrderItemViewModel
+        {
+            OrderItem = new OrderItem(),
+
+            ItemSelectList = items.Select(item => new SelectListItem
+            {
+                Value = item.Id.ToString(),
+                Text = item.Id.ToString() + ": " + item.Name
+            }).ToList(),
+
+
+        };
+    }
+}

@@ -12,7 +12,6 @@
     <None Remove="Logs\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ViewModels\" />
     <Folder Include="DAL\" />
     <Folder Include="Logs\" />
   </ItemGroup>
