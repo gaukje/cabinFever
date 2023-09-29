@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using MyShop.Models;
+using CabinFever.Models;
 
-namespace MyShop.ViewModels
+namespace CabinFever.ViewModels
 {
     public class CreateOrderItemViewModel
     {

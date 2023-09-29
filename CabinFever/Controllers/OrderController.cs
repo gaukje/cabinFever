@@ -37,7 +37,46 @@ public class OrderController : Controller
                 Text = item.Id.ToString() + ": " + item.Name
             }).ToList(),
 
-
+            OrderSelectList = orders.Select(order => new SelectListItem
+            {
+                Value = order.OrderId.ToString(),
+                Text = "Order " + order.OrderId.ToString() + ", Date: " + order.OrderDate + ", " +
+                "Customer: " + order.User.Name
+            }).ToList(),
         };
+        return View(createOrderItemViewModel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateOrderItem(OrderItem orderItem)
+    {
+        try
+        {
+            var newItem = _itemDbContext.Items.Find(orderItem.ItemId);
+            var newOrder = _itemDbContext.Orders.Find(orderItem.OrderId);
+
+            if (newItem == null || newOrder == null)
+            {
+                return BadRequest("Item or Order not found.");
+            }
+
+            var newOrderItem = new OrderItem
+            {
+                ItemId = orderItem.ItemId,
+                Item = newItem,
+                AmountNights = orderItem.AmountNights,
+                OrderId = orderItem.OrderId,
+                Order = newOrder,
+            };
+            newOrderItem.OrderItemPrice = orderItem.AmountNights * newOrderItem.Item.PricePerNight;
+
+            _itemDbContext.OrderItems.Add(newOrderItem);
+            await _itemDbContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Table));
+        }
+        catch
+        {
+            return BadRequest("OrderItem creation failed.");
+        }
     }
 }

@@ -54,8 +54,8 @@ public class DBInit
         {
             var users = new List<User>
             {
-                new User { Navn = "Alice Hansen"},
-                new User { Navn = "Bob Johansen"},
+                new User { Name = "Alice Hansen"},
+                new User { Name = "Bob Johansen"},
             };
             context.AddRange(users);
             context.SaveChanges();
