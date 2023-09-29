@@ -33,8 +33,8 @@ public class OrderController : Controller
 
             ItemSelectList = items.Select(item => new SelectListItem
             {
-                Value = item.Id.ToString(),
-                Text = item.Id.ToString() + ": " + item.Name
+                Value = item.ItemId.ToString(),
+                Text = item.ItemId.ToString() + ": " + item.Name
             }).ToList(),
 
             OrderSelectList = orders.Select(order => new SelectListItem 
