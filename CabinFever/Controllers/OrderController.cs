@@ -37,7 +37,16 @@ public class OrderController : Controller
                 Text = item.Id.ToString() + ": " + item.Name
             }).ToList(),
 
-
+            OrderSelectList = orders.Select(order => new SelectListItem 
+            { 
+                Value = order.OrderId.ToString(),
+                Text = "Order " + order.OrderId.ToString() + ", Date: " + Order.OrderDate + ", " +
+                "Customer: " + order.User.Name
+            }).ToList()
         };
+        return View(createOrderItemViewModel);
     }
+
+    [HttpPost]
+    public async Task<IActionResult>
 }

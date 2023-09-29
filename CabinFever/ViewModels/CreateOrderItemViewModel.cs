@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using MyShop.Models;
+using CabinFever.Models;
 
 namespace MyShop.ViewModels
 {
