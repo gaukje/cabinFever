@@ -1,26 +1,31 @@
-﻿@*
-@model IEnumerable<Item>
+﻿@model ItemListViewModel
 
-<h1>List of cabins for rent (@ViewBag.CurrentViewName View)</h1>
-<a href="/Item/Grid">Grid View</a>
+<h1>List of Cabins</h1>
 
-<div class="container">
-    <table class='table table-striped'>
-        <tr><th>Id</th><th>Name</th><th>Price per night</th><th>Capacity</th><th>Description</th></tr>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.Name</td>
-                <td>@item.PricePerNight.ToString("0.00 NOK")</td>
-                <td>@item.Capacity</td>
-                <td>@item.Description</td>
-                <td></td>
-            </tr>
+<partial name="_ItemTable" model="Model.Items" />
+@*
+    @model IEnumerable<Item>
 
-        }
-    </table>
-</div>
+    <h1>List of cabins for rent (@ViewBag.CurrentViewName View)</h1>
+    <a href="/Item/Grid">Grid View</a>
+
+    <div class="container">
+        <table class='table table-striped'>
+            <tr><th>Id</th><th>Name</th><th>Price per night</th><th>Capacity</th><th>Description</th></tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>@item.PricePerNight.ToString("0.00 NOK")</td>
+                    <td>@item.Capacity</td>
+                    <td>@item.Description</td>
+                    <td></td>
+                </tr>
+
+            }
+        </table>
+    </div>
 
 *@
 
