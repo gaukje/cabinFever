@@ -2,22 +2,43 @@
 
 <h1>@Model.Name</h1>
 
+@*<div class="container">
+    <table class='table table-striped'>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Actions</th>
+        </tr>
+
+        <td>
+            <img src="@Item.ImageUrl" alt="Item Image" style="max-width: 80px; max-height: 80px;" />
+        </td>
+
+        <td>
+            <a asp-action="Update" asp-route-id="@Item.Id">Update</a>
+            <a asp-action="Delete" asp-route-id="@Item.Id">Delete</a>
+        </td>
+*@
+
 <partial name="_CabinPageLayout" />
 
 
 @*
-<div class="container">
-    <div class="row">
-        <div class="col-md-8">
-            <h1>@Model.Name</h1>
-            <p>@Model.Description</p>
-            <p>Location: @Model.Location</p>
-            <p>Price per night: @Model.PricePerNight</p>
-        </div>
-        <div class="col-md-4">
-            <img src="@Model.ImageUrl" alt="@Model.Name" class="image-fluid" />
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>@Model.Name</h1>
+                <p>@Model.Description</p>
+                <p>Location: @Model.Location</p>
+                <p>Price per night: @Model.PricePerNight</p>
+            </div>
+            <div class="col-md-4">
+                <img src="@Model.ImageUrl" alt="@Model.Name" class="image-fluid" />
+            </div>
         </div>
     </div>
-</div>
 
 *@
