@@ -7,16 +7,33 @@
         asp-route-id="@Model.Id">
         <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Name">
         </a>
-        <div>
-            <div class="d-flex justify-content-between mt-2">
-                <h5 class="text-start">
-                    <a asp-controller="Item"
-                       asp-action="Details"
-                       asp-route-id="@Model.Id">@Model.Name</a>
-                </h5>
-                <h5 class="text-nowrap">
-                    @Model.PricePerNight.ToString("0.00 NOK")
-                </h5>
+        <div id="item_card_container">
+            <div class="d-flex justify-content-between pt-2 mx-2">
+                <div>
+                    <b class="text-start">
+                        <a asp-controller="Item"
+                           asp-action="Details"
+                           asp-route-id="@Model.Id">@Model.Name</a>
+                    </b>
+
+                    @if (Model.Location != null && Model.Fylke != null)
+                    {
+                        <p>@Model.Location, @Model.Fylke</p>
+                    } else
+                    {
+                        <p>@Model.Location</p>
+                    }
+
+                </div>
+                <div>
+                    <b class="text-end">
+                        @Model.PricePerNight.ToString("NOK 0.00")
+                    </b>
+                    <p class="text-end">per night</p>
+                </div>
+            </div>
+            <div class="mx-2 pb-2">
+                <p class="text-truncate">@Model.Description</p>
             </div>
         </div>
     </div>
