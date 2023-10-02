@@ -111,3 +111,12 @@ body {
 .title {
     margin-top: 60px;
 }
+
+.text-start a {
+    color: #007A6E;
+}
+
+.btn-primary {
+    background-color: #007A6E;
+    border-color: #007A6E;
+}
