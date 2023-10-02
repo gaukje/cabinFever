@@ -1,4 +1,6 @@
-﻿@{
+﻿@model ItemListViewModel
+
+@{
     ViewData["Title"] = "Min side";
 }
 <h1>@ViewData["Title"]</h1>
@@ -9,16 +11,15 @@
 
 <div>
     <h3>Your cabins:</h3>
-    <p>Empty!</p>
-    <p>
-        <a class="btn btn-secondary"
-           asp-controller="Item"
-           asp-action="Create"> Create new post</a>
-    </p>
-    
+    @if (Model.Items.Any())
+    {
+        <partial name="_ItemTable" model="Model.Items" />
+    }
+    else
+    {
+        <p>No items to display.</p>
+    }
 </div>
-
-
 
 <div>
     <h3>Cabins you rent:</h3>
