@@ -43,7 +43,7 @@ public class OrderController : Controller
             {
                 Value = order.OrderId.ToString(),
                 Text = "Order " + order.OrderId.ToString() + ", Date: " + order.OrderDate + ", " +
-                "Customer: " + order.User.Name
+                "Customer: " + order.UserId
             }).ToList(),
         };
         return View(createOrderItemViewModel);

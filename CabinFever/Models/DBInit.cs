@@ -50,6 +50,7 @@ public class DBInit
             context.AddRange(items);
             context.SaveChanges();
         }
+        /*
         if (!context.Users.Any())
         {
             var users = new List<User>
@@ -59,7 +60,8 @@ public class DBInit
             };
             context.AddRange(users);
             context.SaveChanges();
-        }
+            
+        }*/
 
         if (!context.OrderItems.Any())
         {
