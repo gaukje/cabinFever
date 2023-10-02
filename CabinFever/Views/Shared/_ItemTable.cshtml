@@ -15,7 +15,7 @@
             <tr>
                 <td>@item.Id</td>
                 <td>
-                    <a asp-controller="Item"
+                    <a style="color: #007A6E" asp-controller="Item"
                        asp-action="Details"
                        asp-route-id="@item.Id">@item.Name</a>
                 </td>
@@ -25,8 +25,8 @@
                     <img src="@item.ImageUrl" alt="Item Image" style="max-width: 80px; max-height: 80px;" />
                 </td>
                 <td>
-                    <a asp-action="Update" asp-route-id="@item.Id">Update</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a style="color: #007A6E" asp-action="Update" asp-route-id="@item.Id">Update</a>
+                    <a style="color: #007A6E" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
         }
