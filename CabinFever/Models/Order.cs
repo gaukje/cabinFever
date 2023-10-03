@@ -1,14 +1,25 @@
-﻿namespace CabinFever.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 
-public class Order
+namespace CabinFever.Models
 {
-    public int OrderId { get; set; }
-    public string OrderDate { get; set; } = string.Empty;
-    public int UserId { get; set; }
-    // navigation property
-    // public virtual User User { set; get; } = default!;
-    // navigation property
-    public virtual List<OrderItem>? OrderItems { get; set; }
-    public decimal TotalPrice { get; set; }
-}
+    public class Order
+    {
+        public int OrderId { get; set; }
+        public string OrderDate { get; set; } = string.Empty;
 
+        // Foreign key for AspNetUsers table.
+        public string UserId { get; set; }
+
+        // Navigation property
+        public virtual IdentityUser User { get; set; }
+
+        public decimal TotalPrice { get; set; }
+
+        // Foreign key for Item table.
+        public int ItemId { get; set; }
+
+        // Navigation property
+        public virtual Item Item { get; set; }
+    }
+}

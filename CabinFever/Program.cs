@@ -102,4 +102,6 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
+DBInit.Seed(app);
+
 app.Run();

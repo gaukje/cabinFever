@@ -1,7 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace CabinFever.Models
-    
 {
     public class Item
     {
@@ -23,13 +24,19 @@ namespace CabinFever.Models
         public string? Fylke { get; set; }
 
         public string? Location { get; set; }
+
         [Required]
         public string? ImageUrl { get; set; }
 
-        public Boolean? IsAvailable { get; set; }
+        public bool? IsAvailable { get; set; }
 
-        // navigation property
+        // Foreign key for AspNetUsers table.
+        public string? UserId { get; set; }
 
-        public virtual List<OrderItem>? OrderItems { get; set; }
+        // Navigation property
+        public virtual IdentityUser User { get; set; }
+
+        // Navigation property for Orders
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }
