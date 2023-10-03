@@ -120,3 +120,19 @@ body {
     background-color: #007A6E;
     border-color: #007A6E;
 }
+
+.banner-secondary {
+    width: 100vw;
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+    left: calc(-50vw + 50%);
+}
+
+#banner-image {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    object-fit: cover;
+    z-index: -1;
+}

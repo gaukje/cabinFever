@@ -2,11 +2,18 @@
 
 <div class="col">
     <div>
+        <!-- Alternativ "Pris per dag"
+        <p class="position-absolute m-2 p-2 bg-warning text-white rounded-pill border border-white fs-6">
+            @Model.PricePerNight.ToString("NOK 0.00") 
+            <small>per night</small>
+            </p>
+        -->
         <a asp-controller="Item"
         asp-action="Details"
         asp-route-id="@Model.Id">
         <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Name">
         </a>
+        
         <div class="bg-white">
             <div class="d-flex justify-content-between pt-2 mx-2">
                 <div>
@@ -34,7 +41,10 @@
             </div>
             <div class="mx-2 pb-2">
                 <p class="text-truncate">@Model.Description</p>
+                <hr class="hr hr-blurry" />
+                <p>&#128100 @Model.Capacity</p>
             </div>
+
         </div>
     </div>
 </div>
