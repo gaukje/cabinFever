@@ -67,10 +67,10 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark @(controller?.ToString() == "Item" && action?.ToString() == "Grid" ? "fw-bold" : "")" asp-area="" asp-controller="Item" asp-action="Grid">Cabins</a>
+                        <a class="nav-link text-dark @(controller?.ToString() == "Home" && action?.ToString() == "Rentals" ? "fw-bold" : "")" asp-area="" asp-controller="Home" asp-action="Rentals">Rentals</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark @(controller?.ToString() == "Home" && action?.ToString() == "OmOss" ? "fw-bold" : "")" asp-area="" asp-controller="Home" asp-action="OmOss">About</a>
+                        <a class="nav-link text-dark @(controller?.ToString() == "Home" && action?.ToString() == "About" ? "fw-bold" : "")" asp-area="" asp-controller="Home" asp-action="About">About</a>
                     </li>
                 </ul>
                 <partial name="_LoginPartial" />

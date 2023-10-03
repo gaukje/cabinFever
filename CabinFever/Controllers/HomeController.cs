@@ -25,12 +25,12 @@ namespace CabinFever.Controllers
             return View();
         }
 
-        public IActionResult Hytter()
+        public IActionResult Rentals()
         {
             return View();
         }
 
-        public IActionResult OmOss()
+        public IActionResult About()
         {
             return View();
         }
