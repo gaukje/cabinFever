@@ -12,7 +12,7 @@ namespace CabinFever.Models
         public string UserId { get; set; }
 
         // Navigation property
-        public virtual IdentityUser User { get; set; }
+        public virtual IdentityUser User { get; set; } = default!;
 
         public decimal TotalPrice { get; set; }
 
@@ -20,6 +20,7 @@ namespace CabinFever.Models
         public int ItemId { get; set; }
 
         // Navigation property
-        public virtual Item Item { get; set; }
+        public virtual Item Item { get; set; } = default!;
+        public virtual List<OrderItem>? OrderItems{ get; set; }
     }
 }

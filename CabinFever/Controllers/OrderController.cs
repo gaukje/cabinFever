@@ -25,24 +25,42 @@ namespace CabinFever.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> CreateOrder()
+        public async Task<IActionResult> CreateOrderItem()
         {
             var items = await _itemDbContext.Items.ToListAsync();
             var orders = await _itemDbContext.Orders.ToListAsync();
-            var createOrderViewModel = new CreateOrderViewModel
+            var createOrderItemViewModel = new CreateOrderItemViewModel
             {
                 // Adjust the ViewModel to your needs, removing references to OrderItem
             };
-            return View(createOrderViewModel);
+            return View(createOrderItemViewModel);
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreateOrder(Order order)
+        public async Task<IActionResult> CreateOrder(OrderItem orderItem)
         {
             try
             {
-                // Adjust the logic to create Order and associate Items to it
+                var newItem = _itemDbContext.Items.Find(orderItem.ItemId);
+                var newOrder = _itemDbContext.Orders.Find(orderItem.OrderId);
+
+                if (newItem == null || newOrder == null)
+                {
+                    return BadRequest("Item or Order not found.");
+                }
+
+                var newOrderItem = new OrderItem
+                {
+                    ItemId = orderItem.ItemId,
+                    Item = newItem,
+                    AmountNights = orderItem.AmountNights,
+                    OrderId = orderItem.OrderId,
+                    Order = newOrder,
+                };
+                newOrderItem.OrderItemPrice = orderItem.AmountNights * newOrderItem.Item.PricePerNight;
+
+                _itemDbContext.OrderItems.Add(newOrderItem);
                 await _itemDbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Table));
             }
