@@ -38,7 +38,7 @@ namespace CabinFever.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreateOrder(OrderItem orderItem)
+        public async Task<IActionResult> CreateOrderItem(OrderItem orderItem)
         {
             try
             {
