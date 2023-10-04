@@ -1,4 +1,6 @@
-﻿@{
+﻿@model ItemListViewModel
+
+@{
     ViewData["Title"] = "Rentals";
 }
 <div class="banner-secondary">
@@ -16,5 +18,15 @@
 </div>
 
 <div class="container my-5">
-    <a href="/Item/Grid">Grid View</a> <!-- Skal være partial view. Fikk ikke det til per 3. okt -->
+    @if (Model.Items.Any())
+    {
+        foreach (var item in Model.Items)
+        {
+            <partial name="_ItemCard" model="item" />
+        }
+    }
+    else
+    {
+        <p>No items to display.</p>
+    }
 </div>
