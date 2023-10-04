@@ -46,7 +46,7 @@ namespace CabinFever.Models
         public string? UserId { get; set; }
 
         // Navigation property
-        public virtual IdentityUser User { get; set; }
+        public virtual IdentityUser? User { get; set; }
 
         // Navigation property for Orders
         public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
