@@ -13,6 +13,10 @@ html {
   min-height: 100%;
 }
 
+header {
+    margin-bottom: 3.5rem;
+}
+
 body {
     <<<<<<< HEAD margin-bottom: 60px;
     overflow-x: hidden;

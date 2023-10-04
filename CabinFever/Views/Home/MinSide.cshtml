@@ -1,26 +1,40 @@
 ﻿@model ItemListViewModel
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<IdentityUser> UserManager
 
 @{
+    var userId = UserManager.GetUserId(User); // Hent brukerens ID
+}
     ViewData["Title"] = "Min side";
+    var userId = UserManager.GetUserId(User); // Hent brukerens ID
 }
 <h1>@ViewData["Title"]</h1>
 
 <div style="margin-bottom: 20px;" class="title">
-    <a class="btn btn-secondary id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Edit profile</a>
+    <a class="btn btn-secondary" id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Edit profile</a>
 </div>
 
 <div>
     <h3>Your cabins:</h3>
-    @if (Model.Items.Any())
+    @if (Model.Items.Any(i => i.UserId == userId))
     {
-        <partial name="_ItemTable" model="Model.Items" />
+        <partial name="_ItemTable" model="Model.Items.Where(i => i.UserId == userId)" />
     }
     else
     {
         <p>No items to display.</p>
     }
 </div>
+<div>
+    <p>
+        <a class="btn btn-secondary"
+           asp-controller="Item"
+           asp-action="Create">Create New Cabin</a>
+    </p>
+</div>
 
 <div>
     <h3>Cabins you rent:</h3>
+    <!-- Her kan du legge til en annen filtrering og delvis visning hvis du har en måte å identifisere hytter brukeren leier -->
 </div>

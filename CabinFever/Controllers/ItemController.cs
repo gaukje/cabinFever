@@ -3,6 +3,7 @@ using CabinFever.DAL;
 using Microsoft.AspNetCore.Mvc;
 using CabinFever.ViewModels;
 using CabinFever.Models;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace CabinFever.Controllers;
@@ -11,13 +12,15 @@ public class ItemController : Controller
 {
     private readonly IItemRepository _itemRepository;
     private readonly ILogger<ItemController> _logger;
+    private readonly UserManager<IdentityUser> _userManager; // Legg til denne linjen
 
-    public ItemController(IItemRepository itemRepository, ILogger<ItemController>
-        logger)
+    public ItemController(IItemRepository itemRepository, ILogger<ItemController> logger, UserManager<IdentityUser> userManager) // Legg til UserManager<IdentityUser> userManager her
     {
         _itemRepository = itemRepository;
         _logger = logger;
+        _userManager = userManager; // Og initialiser den her
     }
+
 
     public async Task<IActionResult> Table()
     {
@@ -67,6 +70,9 @@ public class ItemController : Controller
     {
         if (ModelState.IsValid)
         {
+            // Sett UserId til IDen til den innloggede brukeren
+            item.UserId = _userManager.GetUserId(User);
+
             bool returnOk = await _itemRepository.Create(item);
             if (returnOk)
                 return RedirectToAction(nameof(Table));
@@ -74,6 +80,7 @@ public class ItemController : Controller
         _logger.LogWarning("[ItemController] Item creation failed {@item}", item);
         return View(item);
     }
+
 
     [HttpGet]
     [Authorize]
