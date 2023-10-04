@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CabinFever.Migrations
 {
     [DbContext(typeof(ItemDbContext))]
-    [Migration("20230928101934_RecreateItemsTable")]
-    partial class RecreateItemsTable
+    [Migration("20231004111521_test")]
+    partial class test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,12 +34,17 @@ namespace CabinFever.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("FromDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Fylke")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ImageUrl")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool?>("IsAvailable")
@@ -55,7 +60,15 @@ namespace CabinFever.Migrations
                     b.Property<decimal>("PricePerNight")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("ToDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Items");
                 });
@@ -66,6 +79,12 @@ namespace CabinFever.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("ItemId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ItemId1")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("OrderDate")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -73,69 +92,19 @@ namespace CabinFever.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("OrderId");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("ItemId1");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("CabinFever.Models.OrderItem", b =>
-                {
-                    b.Property<int>("OrderItemId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<decimal>("OrderItemPrice")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("OrderItemId");
-
-                    b.HasIndex("ItemId");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("OrderItems");
-                });
-
-            modelBuilder.Entity("CabinFever.Models.User", b =>
-                {
-                    b.Property<int>("UserID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Brukernavn")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Epost")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Etternavn")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Fornavn")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Passord")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("UserID");
-
-                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -334,34 +303,36 @@ namespace CabinFever.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CabinFever.Models.Order", b =>
+            modelBuilder.Entity("CabinFever.Models.Item", b =>
                 {
-                    b.HasOne("CabinFever.Models.User", "User")
-                        .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CabinFever.Models.OrderItem", b =>
+            modelBuilder.Entity("CabinFever.Models.Order", b =>
                 {
                     b.HasOne("CabinFever.Models.Item", "Item")
-                        .WithMany("OrderItems")
+                        .WithMany()
                         .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
-                    b.HasOne("CabinFever.Models.Order", "Order")
-                        .WithMany("OrderItems")
-                        .HasForeignKey("OrderId")
+                    b.HasOne("CabinFever.Models.Item", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("ItemId1");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Item");
 
-                    b.Navigation("Order");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -416,16 +387,6 @@ namespace CabinFever.Migrations
                 });
 
             modelBuilder.Entity("CabinFever.Models.Item", b =>
-                {
-                    b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("CabinFever.Models.Order", b =>
-                {
-                    b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("CabinFever.Models.User", b =>
                 {
                     b.Navigation("Orders");
                 });

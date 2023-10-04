@@ -16,6 +16,18 @@ namespace CabinFever.Models
         [Range(0.01, double.MaxValue, ErrorMessage = "The Price must be greater than 0.")]
         public decimal PricePerNight { get; set; }
 
+        [Display(Name = "From Date")]
+        [DataType(DataType.Date)]
+        [Required(ErrorMessage = "Please select a From Date")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime FromDate { get; set; }
+
+        [Display(Name = "To Date")]
+        [DataType(DataType.Date)]
+        [Required(ErrorMessage = "Please select a To Date")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime ToDate { get; set; }
+
         public int Capacity { get; set; }
 
         [StringLength(200)]
