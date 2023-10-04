@@ -65,6 +65,7 @@ public class ItemRepository : IItemRepository
         try
         {
             _db.Items.Update(item);
+            _db.Entry(item).State = EntityState.Modified;
             await _db.SaveChangesAsync();
             return true;
         }

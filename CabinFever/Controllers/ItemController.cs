@@ -128,6 +128,3 @@ public class ItemController : Controller
         return RedirectToAction(nameof(Table));
     }
 }
-
-
-
