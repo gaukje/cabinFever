@@ -1,0 +1,18 @@
+﻿@*Midlertidig fil, funsjonalitet må implementeres i Create*@
+@{
+    ViewData["Title"] = "Upload File";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post" enctype="multipart/form-data" asp-action="UploadFile">
+    <div class="form-group">
+        <label>Select a file to upload</label>
+        <input type="file" name="file" />
+    </div>
+    <button type="submit" class="btn btn-primary">Upload</button>
+    @if (ViewBag.Message != null)
+    {
+        <p>@ViewBag.Message</p>
+    }
+</form>

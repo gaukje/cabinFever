@@ -13,13 +13,58 @@ public class ItemController : Controller
     private readonly IItemRepository _itemRepository;
     private readonly ILogger<ItemController> _logger;
     private readonly UserManager<IdentityUser> _userManager; // Legg til denne linjen
+    private readonly IWebHostEnvironment _env;
 
-    public ItemController(IItemRepository itemRepository, ILogger<ItemController> logger, UserManager<IdentityUser> userManager) // Legg til UserManager<IdentityUser> userManager her
+    public ItemController(IItemRepository itemRepository, ILogger<ItemController> logger, UserManager<IdentityUser> userManager, IWebHostEnvironment env) // Legg til UserManager<IdentityUser> userManager her
     {
         _itemRepository = itemRepository;
         _logger = logger;
         _userManager = userManager; // Og initialiser den her
+        _env = env;
     }
+
+    [HttpGet]
+    public IActionResult UploadFile()
+    {
+        return View();
+    }
+
+    // Midlertidig opplasting av bilder
+    [HttpPost]
+    public async Task<IActionResult> UploadFile(IFormFile file)
+    {
+        // Sjekk om filen er til stede
+        if (file == null || file.Length == 0)
+        {
+            ViewBag.Message = "File is not selected!";
+            return View();
+        }
+
+        // Sjekk om filnavnet er til stede
+        if (string.IsNullOrWhiteSpace(file.FileName))
+        {
+            ViewBag.Message = "File name is not valid!";
+            return View();
+        }
+
+        // Sjekk om wwwroot er konfigurert
+        if (string.IsNullOrWhiteSpace(_env.WebRootPath))
+        {
+            ViewBag.Message = "Server configuration error!";
+            return View();
+        }
+
+        // Bygg filstien og lagre filen
+        var filePath = Path.Combine(_env.WebRootPath, "images", file.FileName);
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+
+        ViewBag.Message = "File uploaded successfully!";
+        return View();
+    }
+
 
 
     public async Task<IActionResult> Table()
