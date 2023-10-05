@@ -18,15 +18,17 @@
 </div>
 
 <div class="container my-5">
-    @if (Model.Items.Any())
-    {
-        foreach (var item in Model.Items)
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @if (Model.Items.Any())
         {
-            <partial name="_ItemCard" model="item" />
+            foreach (var item in Model.Items)
+            {
+                <partial name="_ItemCard" model="item" />
+            }
         }
-    }
-    else
-    {
-        <p>No items to display.</p>
-    }
+        else
+        {
+            <p>No items to display.</p>
+        }
+    </div>
 </div>
