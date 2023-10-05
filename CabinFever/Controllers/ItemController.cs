@@ -75,7 +75,7 @@ public class ItemController : Controller
 
             bool returnOk = await _itemRepository.Create(item);
             if (returnOk)
-                return RedirectToAction(nameof(Table));
+                return RedirectToAction("MinSide", "Home");
         }
         _logger.LogWarning("[ItemController] Item creation failed {@item}", item);
         return View(item);
