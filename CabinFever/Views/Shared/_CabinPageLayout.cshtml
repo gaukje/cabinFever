@@ -22,11 +22,11 @@
                 <div class="row">
                     <div class="col-sm-6 form-group mb-4">
                         <label asp-for="FromDate">Check-In</label>
-                        <input asp-for="FromDate" id="datepicker" class="form-control type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                        <input asp-for="FromDate" id="fromDate" class="form-control type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="" onchange="handleFromDate('fromDate')" />
                     </div>
                     <div class="col-sm-6 form-group mb-4">
                         <label asp-for="ToDate">Checkout:</label>
-                        <input asp-for="ToDate" id="datepicker" class="form-control type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                        <input asp-for="ToDate" id="toDate" class="form-control type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="" onChange="handleToDate('toDate')" />
                     </div>
                 </div>
 
@@ -37,70 +37,142 @@
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    @{
-                        var numberOfNights = (Model.ToDate.AddDays(5) - Model.FromDate).Days;
-                        var perNightPrice = numberOfNights * Model.PricePerNight;
-                        var cleaningFee = perNightPrice * (decimal)0.025;
-                        var serviceFee = perNightPrice * (decimal)0.050;
-                        var taxes = perNightPrice * (decimal)0.010;
-
-
-                        var totalPrice = perNightPrice + cleaningFee + serviceFee + taxes;
-
-                        <div class="row">
-                            <div class="col-7">
-                                <p>@Model.PricePerNight.ToString("C", CultureInfo.CreateSpecificCulture("no-NO")) &#215; @numberOfNights nights</p>
-                            </div>
-                            <div class="col-5 text-end">
-                                <p>@perNightPrice.ToString("C", CultureInfo.CreateSpecificCulture("no-NO"))</p>
-                            </div>
+                <!-- Reserve List -->
+                <div class="mb-3 d-none" id="listReserve">
+                    <div class="row">
+                        <div class="col-7">
+                            <p>@Model.PricePerNight.ToString("C", CultureInfo.CreateSpecificCulture("no-NO")) &#215; <span id="countDays"></span></p>
                         </div>
-
-                        <div class="row">
-                            <div class="col-7">
-                                <p>Cleaning fee</p>
-                            </div>
-                            <div class="col-5 text-end">
-                                <p>@cleaningFee.ToString("C", CultureInfo.CreateSpecificCulture("no-NO"))</p>
-                            </div>
+                        <div class="col-5 text-end">
+                            <p><span id="costPerNight"></span></p>
                         </div>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-7">
-                                <p>Service fee</p>
-                            </div>
-                            <div class="col-5 text-end">
-                                <p>@serviceFee.ToString("C", CultureInfo.CreateSpecificCulture("no-NO"))</p>
-                            </div>
+                    <div class="row">
+                        <div class="col-7">
+                            <p>Cleaning fee</p>
                         </div>
+                        <div class="col-5 text-end">
+                            <p><span id="cleaningFee"></span></p>
+                        </div>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-7">
-                                <p>Taxes</p>
-                            </div>
-                            <div class="col-5 text-end">
-                                <p>@taxes.ToString("C", CultureInfo.CreateSpecificCulture("no-NO"))</p>
-                            </div>
+                    <div class="row">
+                        <div class="col-7">
+                            <p>Service fee</p>
                         </div>
+                        <div class="col-5 text-end">
+                            <p><span id="serviceFee"></span></p>
+                        </div>
+                    </div>
 
-                        <div class="row">
-                            <hr class="hr hr-blurry mx-auto w-75 px-3" />
-                            <div class="col-7">
-                                <b>Total</b>
-                            </div>
-                            <div class="col-5 text-end">
-                                <b>@totalPrice.ToString("C", CultureInfo.CreateSpecificCulture("no-NO"))</b>
-                            </div>
+                    <div class="row">
+                        <div class="col-7">
+                            <p>Taxes</p>
                         </div>
-                    }
+                        <div class="col-5 text-end">
+                            <p><span id="taxes"></span></p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <hr class="hr hr-blurry mx-auto w-75 px-3" />
+                        <div class="col-7">
+                            <b>Total</b>
+                        </div>
+                        <div class="col-5 text-end">
+                            <b><span id="totalPrice"></span></b>
+                        </div>
+                    </div>
                 </div>
 
-                
                 <button type="submit" class="btn btn-primary w-100">Reserve</button>
-
 
             </div> 
         </div>
     </div>
 </div>
+
+<script>
+    var selectFromDate;
+    var selectToDate;
+    var intFromDate;
+    var intToDate;
+
+    function handleFromDate(date) {
+        // Get the selected date from the check-in input
+        selectFromDate = document.getElementById(date).value;
+        
+        // Calculate the validation for the checkout date by adding one day to the selected date from the check-in input
+        var fromDateAddOneDay = new Date(new Date(selectFromDate).setDate(new Date(selectFromDate).getDate() + 1)).toISOString().split('T')[0];
+
+        // Set the minimum value for the "toDate" input to the calculated check-out date
+        document.getElementById("toDate").min = fromDateAddOneDay;
+
+        // Reset the value of the "toDate" input, if the user has been using the check-in/checkout more than once
+        document.getElementById("toDate").value = "";
+
+        // Convert the check-in date to a integer
+        intFromDate = new Date(document.getElementById(date).value).getTime();
+
+        // Reset the checkout date if the user has been using the check-in/checkout more than once
+        intToDate = undefined;
+
+        // Hide the reservation list if the user has been using the check-in/checkout more than once
+        document.getElementById("listReserve").classList.add("d-none");
+    }
+
+    function handleToDate(date) {
+        // Get the selected date from the checkout input
+        selectToDate = document.getElementById(date).value;
+
+        // Convert the checkout date to a integer
+        intToDate = new Date(document.getElementById(date).value).getTime();
+
+        // Function that calculatates the difference between check-in and checkout dates
+        calculateDateDifference();
+
+        // Show the reservation list
+        document.getElementById("listReserve").classList.remove("d-none");
+    }
+
+    function calculateDateDifference() {
+        // Calculating the difference between check-in and checkout dates
+        var timeDifference = (intToDate - intFromDate) / (1000 * 3600 * 24);
+
+        // Plural if the difference is more than one
+        if (timeDifference > 1) {
+            document.getElementById("countDays").innerText = timeDifference + " nights";
+        } else {
+            document.getElementById("countDays").innerText = timeDifference + " night";
+        }
+
+        // Function that calculates the total price
+        calculateTotalPrice(timeDifference);
+    }
+
+    function calculateTotalPrice(nights) {
+        // Parse the PricePerNight from the Model and convert it to a float
+        var price = parseFloat('@Model.PricePerNight');
+
+        // Calculating the cost per night by multiplying the price by the number of nights and updating the element's text
+        var pricePerNight = price * nights;
+        document.getElementById("costPerNight").innerText = "NOK " + pricePerNight.toLocaleString('no-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        // Calculating the cleaning fee and updating the element's text
+        var cleaningFee = 400 + (price * 0.05);
+        document.getElementById("cleaningFee").innerText = "NOK " + cleaningFee.toLocaleString('no-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        // Calculating the service fee and updating the element's text
+        var serviceFee = pricePerNight * 0.10;
+        document.getElementById("serviceFee").innerText = "NOK " + serviceFee.toLocaleString('no-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        // Calculating the taxes and updating the element's text
+        var taxes = pricePerNight * 0.025;
+        document.getElementById("taxes").innerText = "NOK " + taxes.toLocaleString('no-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        // Calculating the total price and updating the element's text
+        var totalPrice = pricePerNight + cleaningFee + serviceFee + taxes;
+        document.getElementById("totalPrice").innerText = "NOK " + totalPrice.toLocaleString('no-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+</script>
