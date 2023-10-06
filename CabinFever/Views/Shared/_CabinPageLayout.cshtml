@@ -36,7 +36,7 @@
                         <input type="number" id="guests" class="form-control" min="1" value="1" max="@Model.Capacity" />
                     </div>
                 </div>
-
+                
                 <!-- Reserve List -->
                 <div class="mb-3 d-none" id="listReserve">
                     <div class="row">
@@ -85,8 +85,9 @@
                         </div>
                     </div>
                 </div>
-
+                <form asp-controller="Order" asp-action="CreateOrder" method="post"> 
                 <button type="submit" class="btn btn-primary w-100">Reserve</button>
+                </form>
 
             </div> 
         </div>

@@ -5,6 +5,7 @@ using CabinFever.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CabinFever.DAL;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace CabinFever.Controllers
 {
@@ -36,32 +37,26 @@ namespace CabinFever.Controllers
             return View(createOrderItemViewModel);
         }
 
-        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreateOrderItem(OrderItem orderItem)
+        [Authorize]
+        public async Task<IActionResult> CreateOrderItem(Item item, DateTime FromDate, DateTime ToDate, int guests, decimal totalPrice)
         {
             try
             {
-                var newItem = _itemDbContext.Items.Find(orderItem.ItemId);
-                var newOrder = _itemDbContext.Orders.Find(orderItem.OrderId);
+                // Calculate TotalPrice based on your logic (e.g., item.PricePerNight * numberOfNights)
+                //decimal totalPrice = CalculateTotalPrice(item, FromDate, ToDate, guests);
 
-                if (newItem == null || newOrder == null)
+                var order = new Order
                 {
-                    return BadRequest("Item or Order not found.");
-                }
-
-                var newOrderItem = new OrderItem
-                {
-                    ItemId = orderItem.ItemId,
-                    Item = newItem,
-                    AmountNights = orderItem.AmountNights,
-                    OrderId = orderItem.OrderId,
-                    Order = newOrder,
+                    UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                    OrderDate = DateTime.Now.ToString(),
+                    TotalPrice = totalPrice,
+                    ItemId = item.Id
                 };
-                newOrderItem.OrderItemPrice = orderItem.AmountNights * newOrderItem.Item.PricePerNight;
 
-                _itemDbContext.OrderItems.Add(newOrderItem);
+                _itemDbContext.Orders.Add(order);
                 await _itemDbContext.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Table));
             }
             catch
