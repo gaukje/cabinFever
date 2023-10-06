@@ -26,9 +26,8 @@ namespace CabinFever.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> CreateOrderItem()
+        public async Task<IActionResult> CreateOrder()
         {
-            var items = await _itemDbContext.Items.ToListAsync();
             var orders = await _itemDbContext.Orders.ToListAsync();
             var createOrderItemViewModel = new CreateOrderItemViewModel
             {
@@ -39,12 +38,12 @@ namespace CabinFever.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> CreateOrderItem(Item item, DateTime FromDate, DateTime ToDate, int guests, decimal totalPrice)
+        public async Task<IActionResult> CreateOrder(Item item, DateTime FromDate, DateTime ToDate, int guests, decimal totalPrice)
         {
             try
             {
                 // Calculate TotalPrice based on your logic (e.g., item.PricePerNight * numberOfNights)
-                //decimal totalPrice = CalculateTotalPrice(item, FromDate, ToDate, guests);
+                // decimal totalPrice = CalculateTotalPrice(item, FromDate, ToDate, guests);
 
                 var order = new Order
                 {

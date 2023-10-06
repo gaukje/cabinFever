@@ -14,7 +14,6 @@ public class ItemDbContext : IdentityDbContext
 
     public DbSet<Item> Items { get; set; }
     public DbSet<Order> Orders { get; set; }
-    public DbSet<OrderItem> OrderItems { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

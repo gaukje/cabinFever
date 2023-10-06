@@ -21,7 +21,6 @@ namespace CabinFever.Models
 
         // Navigation property
         public virtual Item Item { get; set; } = default!;
-        public virtual List<OrderItem>? OrderItems{ get; set; }
     }
 }
 
