@@ -26,6 +26,7 @@
     <div class="form-group">
         <label>Select a file to upload</label>
         <input type="file" name="file" />
+        <span class="text-danger">@ViewData["FileError"]</span>
     </div>
     <button type="submit" class="btn btn-primary">Create</button>
     <a asp-action="Grid" class="btn btn-secondary">Back to Grid View</a>

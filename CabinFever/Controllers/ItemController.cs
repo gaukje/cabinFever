@@ -113,6 +113,12 @@ public class ItemController : Controller
     [Authorize]
     public async Task<IActionResult> Create(Item item, IFormFile file)
     {
+        if (file == null || file.Length == 0)
+        {
+            ViewData["FileError"] = "Please upload an image.";
+            return View(item);
+        }
+
         try
         {
             item.UserId = _userManager.GetUserId(User);
