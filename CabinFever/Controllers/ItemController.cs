@@ -111,20 +111,56 @@ public class ItemController : Controller
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> Create(Item item)
+    public async Task<IActionResult> Create(Item item, IFormFile file)
     {
-        if (ModelState.IsValid)
+        try
         {
-            // Sett UserId til IDen til den innloggede brukeren
             item.UserId = _userManager.GetUserId(User);
+
+            if (file != null && file.Length > 0)
+            {
+                var filePath = Path.Combine(_env.WebRootPath, "images", file.FileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                item.ImageUrl = "/images/" + file.FileName;
+
+                _logger.LogInformation("ImageUrl is set to: {ImageUrl}", item.ImageUrl);
+
+                // Clear the ModelState error for ImageUrl since we've provided a value now
+                ModelState.Remove("ImageUrl");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                _logger.LogWarning("ModelState is invalid for: {@item}", item);
+
+                foreach (var modelStateKey in ModelState.Keys)
+                {
+                    var modelStateVal = ModelState[modelStateKey];
+                    foreach (var error in modelStateVal.Errors)
+                    {
+                        _logger.LogWarning("Validation error on {Field}: {ErrorMessage}", modelStateKey, error.ErrorMessage);
+                    }
+                }
+                return View(item);
+            }
 
             bool returnOk = await _itemRepository.Create(item);
             if (returnOk)
                 return RedirectToAction("MinSide", "Home");
         }
-        _logger.LogWarning("[ItemController] Item creation failed {@item}", item);
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while trying to create item: {@item}", item);
+        }
+
         return View(item);
     }
+
+
+
 
 
     [HttpGet]
