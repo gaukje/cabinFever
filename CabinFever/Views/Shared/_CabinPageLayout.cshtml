@@ -18,25 +18,26 @@
                 <div class="row mb-2">
                     <b>@Model.PricePerNight.ToString("C", CultureInfo.CreateSpecificCulture("no-NO")) per night</b>
                 </div>
+                <form asp-controller="Order" asp-action="CreateOrder" method="post">
+                    <div class="row">
+                        <div class="col-sm-6 form-group mb-4">
+                            <input type="hidden" name="itemId" value="@Model.Id" />
+                            <label asp-for="FromDate">Check-In</label>
+                            <input asp-for="FromDate" id="fromDate" class="form-control type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="" onchange="handleFromDate('fromDate')" />
+                        </div>
+                        <div class="col-sm-6 form-group mb-4">
+                            <label asp-for="ToDate">Checkout:</label>
+                            <input asp-for="ToDate" id="toDate" class="form-control type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="" onChange="handleToDate('toDate')" />
+                        </div>
+                    </div>
 
-                <div class="row">
-                    <div class="col-sm-6 form-group mb-4">
-                        <label asp-for="FromDate">Check-In</label>
-                        <input asp-for="FromDate" id="fromDate" class="form-control type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="" onchange="handleFromDate('fromDate')" />
+                    <div class="row">
+                        <div class="form-group mb-4">
+                            <label for="guests">Guests:</label>
+                            <input type="number" id="guests" class="form-control" min="1" value="1" max="@Model.Capacity" />
+                        </div>
                     </div>
-                    <div class="col-sm-6 form-group mb-4">
-                        <label asp-for="ToDate">Checkout:</label>
-                        <input asp-for="ToDate" id="toDate" class="form-control type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="" onChange="handleToDate('toDate')" />
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group mb-4">
-                        <label for="guests">Guests:</label>
-                        <input type="number" id="guests" class="form-control" min="1" value="1" max="@Model.Capacity" />
-                    </div>
-                </div>
-                
+                </form>
                 <!-- Reserve List -->
                 <div class="mb-3 d-none" id="listReserve">
                     <div class="row">

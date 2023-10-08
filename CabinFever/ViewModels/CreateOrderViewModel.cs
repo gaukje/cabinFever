@@ -3,7 +3,7 @@ using CabinFever.Models;
 
 namespace CabinFever.ViewModels
 {
-    public class CreateOrderItemViewModel
+    public class CreateOrderViewModel
     {
         public Order Order { get; set; } = new Order();
         public List<SelectListItem> ItemSelectList { get; set; } = new List<SelectListItem>();

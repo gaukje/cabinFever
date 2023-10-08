@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace CabinFever.Models
 {
@@ -21,6 +22,12 @@ namespace CabinFever.Models
 
         // Navigation property
         public virtual Item Item { get; set; } = default!;
+
+        [Required(ErrorMessage = "Please select a From Date")]
+        public DateTime FromDate { get; set; }
+
+        [Required(ErrorMessage = "Please select a To Date")]
+        public DateTime ToDate { get; set; }
     }
 }
 
