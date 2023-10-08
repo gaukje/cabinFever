@@ -194,6 +194,8 @@ namespace CabinFever.Migrations
                     UserId = table.Column<string>(type: "TEXT", nullable: false),
                     TotalPrice = table.Column<decimal>(type: "TEXT", nullable: false),
                     ItemId = table.Column<int>(type: "INTEGER", nullable: false),
+                    FromDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ToDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ItemId1 = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>

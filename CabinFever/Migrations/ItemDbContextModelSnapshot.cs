@@ -76,6 +76,9 @@ namespace CabinFever.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("FromDate")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("ItemId")
                         .HasColumnType("INTEGER");
 
@@ -84,6 +87,9 @@ namespace CabinFever.Migrations
 
                     b.Property<string>("OrderDate")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("ToDate")
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("TotalPrice")

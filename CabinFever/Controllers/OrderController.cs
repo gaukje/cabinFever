@@ -33,16 +33,15 @@ namespace CabinFever.Controllers
 
             if (item == null)
             {
-                return NotFound("Item not found");
+                return NotFound("Item not found" + item.Id);
             }
 
             return View(new CreateOrderViewModel
             {
                 ItemId = item.Id,
-                ItemName = item.Name,
-                MinCheckInDate = DateTime.Now.ToString("yyyy-MM-dd"),
-                MaxCheckOutDate = DateTime.Now.AddMonths(6).ToString("yyyy-MM-dd"),
-                MaxGuests = item.Capacity
+                FromDate = item.FromDate,
+                ToDate= item.ToDate,
+                Guests = item.Capacity
             });
         }
 
@@ -61,7 +60,7 @@ namespace CabinFever.Controllers
 
                 if (item == null)
                 {
-                    return NotFound("Item not found");
+                    return NotFound("Item not found" );
                 }
                 
                 // Calculate the total number of nights

@@ -6,9 +6,8 @@ namespace CabinFever.ViewModels
     public class CreateOrderViewModel
     {
         public int ItemId { get; set; }
-        public string ItemName { get; set; }
-        public string MinCheckInDate { get; set; }
-        public string MaxCheckOutDate { get; set; }
-        public int MaxGuests { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public int Guests { get; set; }
     }
 }

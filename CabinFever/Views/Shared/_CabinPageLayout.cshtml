@@ -19,9 +19,9 @@
                     <b>@Model.PricePerNight.ToString("C", CultureInfo.CreateSpecificCulture("no-NO")) per night</b>
                 </div>
                 <form asp-controller="Order" asp-action="CreateOrder" method="post">
+                    <input type="hidden" name="itemId" value="@Model.Id" />
                     <div class="row">
                         <div class="col-sm-6 form-group mb-4">
-                            <input type="hidden" name="itemId" value="@Model.Id" />
                             <label asp-for="FromDate">Check-In</label>
                             <input asp-for="FromDate" id="fromDate" class="form-control type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="" onchange="handleFromDate('fromDate')" />
                         </div>
