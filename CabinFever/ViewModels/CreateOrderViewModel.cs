@@ -5,8 +5,10 @@ namespace CabinFever.ViewModels
 {
     public class CreateOrderViewModel
     {
-        public Order Order { get; set; } = new Order();
-        public List<SelectListItem> ItemSelectList { get; set; } = new List<SelectListItem>();
-        public List<SelectListItem> UserSelectList { get; set; } = new List<SelectListItem>(); // Hvis du vil la brukeren velge en bruker fra en liste
+        public int ItemId { get; set; }
+        public string ItemName { get; set; }
+        public string MinCheckInDate { get; set; }
+        public string MaxCheckOutDate { get; set; }
+        public int MaxGuests { get; set; }
     }
 }

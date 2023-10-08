@@ -36,16 +36,14 @@ namespace CabinFever.Controllers
                 return NotFound("Item not found");
             }
 
-            var createOrderViewModel = new CreateOrderViewModel
+            return View(new CreateOrderViewModel
             {
                 ItemId = item.Id,
                 ItemName = item.Name,
                 MinCheckInDate = DateTime.Now.ToString("yyyy-MM-dd"),
                 MaxCheckOutDate = DateTime.Now.AddMonths(6).ToString("yyyy-MM-dd"),
                 MaxGuests = item.Capacity
-            };
-
-            return View(createOrderViewModel);
+            });
         }
 
         [HttpPost]
