@@ -30,7 +30,7 @@
         <div class="col-lg-4">
             <div class="sticky-box position-sticky top-0 bg-light border border-dark-subtle rounded-3 p-4">
                 <div class="row mb-2">
-                    <b>NOK @Model.PricePerNight.ToString("N2", CultureInfo.CreateSpecificCulture("no-NO")) per night</b>
+                    <b>@Model.PricePerNight.ToString("N2", CultureInfo.CreateSpecificCulture("no-NO")) kr per night</b>
                 </div>
                 <form asp-controller="Order" asp-action="CreateOrder" method="post">
                     <input type="hidden" name="itemId" value="@Model.Id" />
@@ -56,7 +56,7 @@
                 <div class="mb-3 d-none" id="listReserve">
                     <div class="row">
                         <div class="col-7">
-                            <p>NOK @Model.PricePerNight.ToString("N2", CultureInfo.CreateSpecificCulture("no-NO")) &#215; <span id="countDays"></span></p>
+                            <p>@Model.PricePerNight.ToString("N2", CultureInfo.CreateSpecificCulture("no-NO")) kr &#215; <span id="countDays"></span></p>
                         </div>
                         <div class="col-5 text-end">
                             <p><span id="costPerNight"></span></p>
@@ -175,22 +175,22 @@
 
         // Calculating the cost per night by multiplying the price by the number of nights and updating the element's text
         var pricePerNight = price * nights;
-        document.getElementById("costPerNight").innerText = "NOK " + pricePerNight.toLocaleString('no-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById("costPerNight").innerText = pricePerNight.toLocaleString('no-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " kr";
 
         // Calculating the cleaning fee and updating the element's text
         var cleaningFee = 400 + (price * 0.05);
-        document.getElementById("cleaningFee").innerText = "NOK " + cleaningFee.toLocaleString('no-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById("cleaningFee").innerText = cleaningFee.toLocaleString('no-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " kr";
 
         // Calculating the service fee and updating the element's text
         var serviceFee = pricePerNight * 0.10;
-        document.getElementById("serviceFee").innerText = "NOK " + serviceFee.toLocaleString('no-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById("serviceFee").innerText = serviceFee.toLocaleString('no-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " kr";
 
         // Calculating the taxes and updating the element's text
         var taxes = pricePerNight * 0.025;
-        document.getElementById("taxes").innerText = "NOK " + taxes.toLocaleString('no-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById("taxes").innerText = taxes.toLocaleString('no-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " kr";
 
         // Calculating the total price and updating the element's text
         var totalPrice = pricePerNight + cleaningFee + serviceFee + taxes;
-        document.getElementById("totalPrice").innerText = "NOK " + totalPrice.toLocaleString('no-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById("totalPrice").innerText = totalPrice.toLocaleString('no-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " kr";
     }
 </script>

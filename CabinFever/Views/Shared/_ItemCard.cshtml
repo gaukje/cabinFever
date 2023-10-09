@@ -12,7 +12,9 @@
         <a asp-controller="Item"
         asp-action="Details"
         asp-route-id="@Model.Id">
-        <img src="@Model.ImageUrl" class="card-img-top img-fluid" alt="@Model.Name" id="itemcard-image">
+            <div class="ratio ratio-4x3">
+                <img src="@Model.ImageUrl" class="card-img-top img-fluid" alt="@Model.Name" id="itemcard-image">
+            </div>
         </a>
         
         <div>
@@ -35,17 +37,16 @@
                 </div>
                 <div>
                     <b class="text-end">
-                        NOK @Model.PricePerNight.ToString("N2", CultureInfo.CreateSpecificCulture("no-NO"))
+                        @Model.PricePerNight.ToString("N2", CultureInfo.CreateSpecificCulture("no-NO")) kr
                     </b>
                     <p class="text-end">per night</p>
                 </div>
             </div>
-            <div class="mx-2 pb-2">
+            <div class="mx-2">
                 <p class="text-truncate">@Model.Description</p>
                 <hr class="hr hr-blurry" />
                 <p class="bi bi-person">@Model.Capacity</p>
             </div>
-
         </div>
     </div>
 </div>
