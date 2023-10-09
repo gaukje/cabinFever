@@ -11,6 +11,24 @@
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="form-group">
+        <label asp-for="Location"></label><span class="text-danger">*</span>
+        <select asp-for="Location" class="form-select">
+            <option value="" selected disabled hidden>Choose a county</option>
+            <option value="Agder">Agder</option>
+            <option value="Innlandet">Innlandet</option>
+            <option value="Møre og Romsdal">Møre og Romsdal</option>
+            <option value="Nordland">Nordland</option>
+            <option value="Oslo">Oslo</option>
+            <option value="Rogaland">Rogaland</option>
+            <option value="Troms og Finnmark">Troms og Finnmark</option>
+            <option value="Trøndelag">Trøndelag</option>
+            <option value="Vestfold og Telemark">Vestfold og Telemark</option>
+            <option value="Vestland">Vestland</option>
+            <option value="Viken">Viken</option>
+        </select>
+        <span asp-validation-for="Location" class="text-danger"></span>
+    </div>
+    <div class="form-group">
         <label asp-for="PricePerNight"></label>
         <input asp-for="PricePerNight" class="form-control" />
         <span asp-validation-for="PricePerNight" class="text-danger"></span>

@@ -5,6 +5,7 @@
         <tr>
             <th>Id</th>
             <th>Name</th>
+            <th>Location</th>
             <th>Price Per Night</th>
             <th>Description</th>
             <th>Image</th>
@@ -19,6 +20,7 @@
                        asp-action="Details"
                        asp-route-id="@item.Id">@item.Name</a>
                 </td>
+                <td>@item.Location</td>
                 <td>@item.PricePerNight.ToString("0.00 NOK")</td>
                 <td>@item.Description</td>
                 <td>
