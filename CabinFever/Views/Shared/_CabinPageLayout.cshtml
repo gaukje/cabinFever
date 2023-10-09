@@ -1,22 +1,36 @@
 ﻿@using System.Globalization;
 @model Item
 
-<div class="container text-center">
-    <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded" />
-</div>
-
 <div class="container my-4">
+    <div class="row mb-4">
+        <h2>@Model.Name</h2>
+        <p><strong>Location:</strong> @Model.Location</p>
+        <div class="container text-center">
+            <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded" id="cabinpagelayout-image" />
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-lg-8">
-            <h1>@Model.Name</h1>
+            <h4>Cabin hosted by</h4>
+            @{
+                if (Model.Capacity > 1)
+                {
+                    <p>@Model.Capacity guests</p>
+                }
+                else
+                {
+                    <p>@Model.Capacity guest</p>
+                }
+            }
+            <hr class="hr hr-blurry" />
+
             <p>@Model.Description</p>
-            <p><strong>Location:</strong> @Model.Location</p>
-            <p><strong>Price per night:</strong> @Model.PricePerNight.ToString("0.00 NOK")</p>
         </div>
         <div class="col-lg-4">
             <div class="sticky-box position-sticky top-0 bg-light border border-dark-subtle rounded-3 p-4">
                 <div class="row mb-2">
-                    <b>@Model.PricePerNight.ToString("C", CultureInfo.CreateSpecificCulture("no-NO")) per night</b>
+                    <b>NOK @Model.PricePerNight.ToString("N2", CultureInfo.CreateSpecificCulture("no-NO")) per night</b>
                 </div>
                 <form asp-controller="Order" asp-action="CreateOrder" method="post">
                     <input type="hidden" name="itemId" value="@Model.Id" />
@@ -42,7 +56,7 @@
                 <div class="mb-3 d-none" id="listReserve">
                     <div class="row">
                         <div class="col-7">
-                            <p>@Model.PricePerNight.ToString("C", CultureInfo.CreateSpecificCulture("no-NO")) &#215; <span id="countDays"></span></p>
+                            <p>NOK @Model.PricePerNight.ToString("N2", CultureInfo.CreateSpecificCulture("no-NO")) &#215; <span id="countDays"></span></p>
                         </div>
                         <div class="col-5 text-end">
                             <p><span id="costPerNight"></span></p>
@@ -76,8 +90,8 @@
                         </div>
                     </div>
 
+                    <hr class="hr hr-blurry" />
                     <div class="row">
-                        <hr class="hr hr-blurry mx-auto w-75 px-3" />
                         <div class="col-7">
                             <b>Total</b>
                         </div>
@@ -131,11 +145,13 @@
         // Convert the checkout date to a integer
         intToDate = new Date(document.getElementById(date).value).getTime();
 
-        // Function that calculatates the difference between check-in and checkout dates
-        calculateDateDifference();
+        if (selectFromDate != undefined) {
+            // Function that calculatates the difference between check-in and checkout dates
+            calculateDateDifference();
 
-        // Show the reservation list
-        document.getElementById("listReserve").classList.remove("d-none");
+            // Show the reservation list
+            document.getElementById("listReserve").classList.remove("d-none");
+        }
     }
 
     function calculateDateDifference() {

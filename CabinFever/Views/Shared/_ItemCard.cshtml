@@ -1,7 +1,8 @@
-﻿@model Item
+﻿@using System.Globalization;
+@model Item
 
 <div class="col">
-    <div>
+    <div class="bg-white border border-dark-subtle rounded-3">
         <!-- Alternativ "Pris per dag"
         <p class="position-absolute m-2 p-2 bg-warning text-white rounded-pill border border-white fs-6">
             @Model.PricePerNight.ToString("NOK 0.00") 
@@ -11,10 +12,10 @@
         <a asp-controller="Item"
         asp-action="Details"
         asp-route-id="@Model.Id">
-        <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Name">
+        <img src="@Model.ImageUrl" class="card-img-top img-fluid" alt="@Model.Name" id="itemcard-image">
         </a>
         
-        <div class="bg-white">
+        <div>
             <div class="d-flex justify-content-between pt-2 mx-2">
                 <div>
                     <b class="text-start">
@@ -34,7 +35,7 @@
                 </div>
                 <div>
                     <b class="text-end">
-                        @Model.PricePerNight.ToString("NOK 0.00")
+                        NOK @Model.PricePerNight.ToString("N2", CultureInfo.CreateSpecificCulture("no-NO"))
                     </b>
                     <p class="text-end">per night</p>
                 </div>
@@ -42,7 +43,7 @@
             <div class="mx-2 pb-2">
                 <p class="text-truncate">@Model.Description</p>
                 <hr class="hr hr-blurry" />
-                <p>&#128100 @Model.Capacity</p>
+                <p class="bi bi-person">@Model.Capacity</p>
             </div>
 
         </div>

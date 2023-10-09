@@ -7,7 +7,20 @@
     ViewData["Title"] = "Min side";
     var userId = UserManager.GetUserId(User); // Hent brukerens ID
 }
-<h1>@ViewData["Title"]</h1>
+
+<div class="banner-secondary">
+    <div class="banner-secondary-container">
+        <!-- Midlertidig -->
+        <img src="https://images.pexels.com/photos/2659629/pexels-photo-2659629.jpeg" id="banner-image" />
+    </div>
+    <div class="row">
+        <div class="col-12 d-flex align-items-center justify-content-center position-absolute top-50 start-50 translate-middle">
+            <div class="text-center">
+                <h1 class="text-white ">@ViewData["Title"]</h1>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div style="margin-bottom: 20px;" class="title">
     <a class="btn btn-secondary" id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Edit profile</a>
