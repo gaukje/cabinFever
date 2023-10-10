@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CabinFever.Migrations
 {
     [DbContext(typeof(ItemDbContext))]
-    [Migration("20231010104051_InitialCreate")]
+    [Migration("20231010212221_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
