@@ -79,6 +79,9 @@ namespace CabinFever.Migrations
                     b.Property<DateTime>("FromDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Guests")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("ItemId")
                         .HasColumnType("INTEGER");
 

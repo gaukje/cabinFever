@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace CabinFever.Models
@@ -28,8 +28,13 @@ namespace CabinFever.Models
 
         [Required(ErrorMessage = "Please select a To Date")]
         public DateTime ToDate { get; set; }
+
+        [Required(ErrorMessage = "Please specify the number of guests")]
+        [Range(1, int.MaxValue, ErrorMessage = "Number of guests must be at least 1")]
+        public int Guests { get; set; }
     }
 }
+
 
 /* OrderItem.cs
  * 
