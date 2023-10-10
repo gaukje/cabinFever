@@ -45,53 +45,60 @@ namespace CabinFever.Controllers
             });
         }
 
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> CreateOrder(int itemId, DateTime fromDate, DateTime toDate, int guests)
+[HttpPost]
+[Authorize]
+public async Task<IActionResult> CreateOrder(Order order)
+{
+    try
+    {
+        if (!ModelState.IsValid)
         {
-            try
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            foreach (var error in errors)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest("Invalid model state");
-                }
-
-                var item = await _itemDbContext.Items.FindAsync(itemId);
-
-                if (item == null)
-                {
-                    return NotFound("Item not found" );
-                }
-                
-                // Calculate the total number of nights
-                int numberOfNights = (int)(toDate - fromDate).TotalDays;
-
-                // Use your own logic to calculate total price based on item, guests, and numberOfNights
-                decimal totalPrice = CalculateTotalPrice(item, guests, numberOfNights);
-
-                var order = new Order
-                {
-                    UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
-                    OrderDate = DateTime.Now.ToString(),
-                    TotalPrice = totalPrice,
-                    ItemId = item.Id,
-                    FromDate = fromDate,
-                    ToDate = toDate,
-                };
-
-                _itemDbContext.Orders.Add(order);
-                await _itemDbContext.SaveChangesAsync();
-
-                return RedirectToAction(nameof(Table));
+                Console.WriteLine(error.ErrorMessage);
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace);
-
-                return BadRequest("Order creation failed.");
-            }
+            return BadRequest("Invalid model state");
         }
+
+        var item = await _itemDbContext.Items.FindAsync(order.ItemId);
+
+        if (item == null)
+        {
+            return NotFound("Item not found");
+        }
+                
+        // Calculate the total number of nights
+        int numberOfNights = (int)(order.ToDate - order.FromDate).TotalDays;
+
+        // Use your own logic to calculate total price based on item, guests, and numberOfNights
+        decimal totalPrice = CalculateTotalPrice(item, order.Guests, numberOfNights);
+
+        var newOrder = new Order
+        {
+            UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+            OrderDate = DateTime.Now.ToString(),
+            TotalPrice = totalPrice,
+            ItemId = item.Id,
+            FromDate = order.FromDate,
+            ToDate = order.ToDate,
+            Guests = order.Guests
+        };
+
+        _itemDbContext.Orders.Add(newOrder);
+        await _itemDbContext.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Table));
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e.Message);
+        Console.WriteLine(e.StackTrace);
+
+        return BadRequest("Order creation failed.");
+    }
+}
+
 
         private decimal CalculateTotalPrice(Item item, int guests, int numberOfNights)
         {

@@ -28,29 +28,10 @@ namespace CabinFever.Models
 
         [Required(ErrorMessage = "Please select a To Date")]
         public DateTime ToDate { get; set; }
-
+        /*
         [Required(ErrorMessage = "Please specify the number of guests")]
         [Range(1, int.MaxValue, ErrorMessage = "Number of guests must be at least 1")]
+        */
         public int Guests { get; set; }
     }
 }
-
-
-/* OrderItem.cs
- * 
- * namespace CabinFever.Models
-{
-    public class OrderItem
-    {
-        public int OrderItemId { get; set; }
-        public int ItemId { get; set; }
-        //Navigation property
-        public virtual Item Item { get; set; } = default!;
-        public int AmountNights { get; set; }
-        public int OrderId { get; set; }
-        //Navigation property
-        public virtual Order Order { get; set; } = default!;
-        public decimal OrderItemPrice { get; set; }
-    }
-}
-*/
