@@ -12,10 +12,12 @@ namespace CabinFever.Controllers
     public class OrderController : Controller
     {
         private readonly ItemDbContext _itemDbContext;
+        private readonly ILogger<OrderController> _logger;
 
-        public OrderController(ItemDbContext itemDbContext)
+        public OrderController(ItemDbContext itemDbContext, ILogger<OrderController> logger)
         {
             _itemDbContext = itemDbContext;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Table()
@@ -24,80 +26,57 @@ namespace CabinFever.Controllers
             return View(orders);
         }
 
-        [Authorize]
         [HttpGet]
-        public IActionResult CreateOrder(int itemId)
+        [Authorize]
+        public IActionResult Create()
         {
-            // Retrieve the item based on the provided itemId
-            var item = _itemDbContext.Items.Find(itemId);
+            return View();
+        }
 
-            if (item == null)
+        [HttpPost]
+        public async Task<IActionResult> Create(Order order)
+        {
+            // Hent UserId
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Sjekk om UserId er gyldig
+            if (userId == null)
             {
-                return NotFound("Item not found" + item.Id);
+                // Logg en feil for å hjelpe med feilsøking
+                _logger.LogError("UserId is null. User may not be logged in, or ClaimTypes.NameIdentifier may not be set.");
+
+                // Håndter feil (f.eks. bruker ikke logget inn)
+                return Unauthorized(); // Eller en annen passende respons
             }
 
-            return View(new CreateOrderViewModel
-            {
-                ItemId = item.Id,
-                FromDate = item.FromDate,
-                ToDate= item.ToDate,
-                Guests = item.Capacity
-            });
-        }
+            // Sett UserId på order
+            order.UserId = userId;
 
-[HttpPost]
-[Authorize]
-public async Task<IActionResult> CreateOrder(Order order)
-{
-    try
-    {
-        if (!ModelState.IsValid)
-        {
-            var errors = ModelState.Values.SelectMany(v => v.Errors);
-            foreach (var error in errors)
+            // Oppdater ModelState manuelt
+            ModelState.Clear();
+            TryValidateModel(order);
+
+            if (!ModelState.IsValid)
             {
-                Console.WriteLine(error.ErrorMessage);
+                foreach (var state in ModelState)
+                {
+                    foreach (var error in state.Value.Errors)
+                    {
+                        _logger.LogError("Model validation error for {Key}: {ErrorMessage}", state.Key, error.ErrorMessage);
+                    }
+                }
+
+                // Return the view with the model to display validation error messages
+                return View(order);
             }
-            return BadRequest("Invalid model state");
+
+            // Your logic to save the order goes here
+            // ...
+
+            // Redirect to another action as per your flow
+            return RedirectToAction("Index", "Home");
         }
 
-        var item = await _itemDbContext.Items.FindAsync(order.ItemId);
-
-        if (item == null)
-        {
-            return NotFound("Item not found");
-        }
-                
-        // Calculate the total number of nights
-        int numberOfNights = (int)(order.ToDate - order.FromDate).TotalDays;
-
-        // Use your own logic to calculate total price based on item, guests, and numberOfNights
-        decimal totalPrice = CalculateTotalPrice(item, order.Guests, numberOfNights);
-
-        var newOrder = new Order
-        {
-            UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
-            OrderDate = DateTime.Now.ToString(),
-            TotalPrice = totalPrice,
-            ItemId = item.Id,
-            FromDate = order.FromDate,
-            ToDate = order.ToDate,
-            Guests = order.Guests
-        };
-
-        _itemDbContext.Orders.Add(newOrder);
-        await _itemDbContext.SaveChangesAsync();
-
-        return RedirectToAction(nameof(Table));
-    }
-    catch (Exception e)
-    {
-        Console.WriteLine(e.Message);
-        Console.WriteLine(e.StackTrace);
-
-        return BadRequest("Order creation failed.");
-    }
-}
 
 
         private decimal CalculateTotalPrice(Item item, int guests, int numberOfNights)
@@ -113,3 +92,4 @@ public async Task<IActionResult> CreateOrder(Order order)
         }
     }
 }
+
