@@ -34,20 +34,11 @@ namespace CabinFever.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(Order order)
         {
             // Hent UserId
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            // Sjekk om UserId er gyldig
-            if (userId == null)
-            {
-                // Logg en feil for å hjelpe med feilsøking
-                _logger.LogError("UserId is null. User may not be logged in, or ClaimTypes.NameIdentifier may not be set.");
-
-                // Håndter feil (f.eks. bruker ikke logget inn)
-                return Unauthorized(); // Eller en annen passende respons
-            }
 
             // Sett UserId på order
             order.UserId = userId;
