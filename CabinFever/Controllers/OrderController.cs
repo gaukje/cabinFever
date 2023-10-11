@@ -61,8 +61,8 @@ namespace CabinFever.Controllers
                 return View(order);
             }
 
-            // Your logic to save the order goes here
-            // ...
+            _itemDbContext.Orders.Add(order);
+            await _itemDbContext.SaveChangesAsync();
 
             // Redirect to another action as per your flow
             return RedirectToAction("Index", "Home");
