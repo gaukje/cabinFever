@@ -7,7 +7,7 @@ namespace CabinFever.Models
     public class Order
     {
         public int OrderId { get; set; }
-        public string OrderDate { get; set; } = string.Empty;
+        public DateTime OrderDate { get; set; } = DateTime.UtcNow;
 
         // Foreign key for AspNetUsers table.
         public string UserId { get; set; }

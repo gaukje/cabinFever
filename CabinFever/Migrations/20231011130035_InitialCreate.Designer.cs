@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CabinFever.Migrations
 {
     [DbContext(typeof(ItemDbContext))]
-    [Migration("20231011061830_InitialCreate")]
+    [Migration("20231011130035_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -113,8 +113,7 @@ namespace CabinFever.Migrations
                     b.Property<int?>("ItemId1")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("OrderDate")
-                        .IsRequired()
+                    b.Property<DateTime>("OrderDate")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("ToDate")

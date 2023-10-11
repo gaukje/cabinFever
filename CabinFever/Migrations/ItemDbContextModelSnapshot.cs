@@ -110,8 +110,7 @@ namespace CabinFever.Migrations
                     b.Property<int?>("ItemId1")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("OrderDate")
-                        .IsRequired()
+                    b.Property<DateTime>("OrderDate")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("ToDate")

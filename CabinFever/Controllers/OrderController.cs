@@ -43,6 +43,9 @@ namespace CabinFever.Controllers
             // Sett UserId på order
             order.UserId = userId;
 
+            // Log the order state
+            _logger.LogInformation("Order before saving: {@Order}", order);
+
             // Oppdater ModelState manuelt
             ModelState.Clear();
             TryValidateModel(order);
@@ -61,12 +64,22 @@ namespace CabinFever.Controllers
                 return View(order);
             }
 
-            _itemDbContext.Orders.Add(order);
-            await _itemDbContext.SaveChangesAsync();
+            try
+            {
+                _itemDbContext.Orders.Add(order);
+                await _itemDbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                // Log any exception that occurs
+                _logger.LogError(ex, "Error occurred while saving order: {@Order}", order);
+                throw; // Re-throw the exception to be handled by the middleware or for further debugging
+            }
 
             // Redirect to another action as per your flow
             return RedirectToAction("Index", "Home");
         }
+
 
 
 

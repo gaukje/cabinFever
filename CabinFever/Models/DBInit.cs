@@ -43,7 +43,9 @@ public class DBInit
                     PricePerNight = 2000,
                     Description = "Ekstrem hytte",
                     ImageUrl = "/images/hytte_stock_1.jpg",
-                    UserId = user1Id
+                    UserId = user1Id,
+                    Capacity = 4,
+                    Location = "Oslo"
                 },
 
                 new Item
@@ -52,7 +54,9 @@ public class DBInit
                     PricePerNight = 3000,
                     Description = "Ekstrem hytte",
                     ImageUrl = "/images/hytte_stock_2.jpg",
-                    UserId = user1Id
+                    UserId = user1Id,
+                    Capacity = 2,
+                    Location = "Vestland"
                 },
 
                 new Item
@@ -61,7 +65,9 @@ public class DBInit
                     PricePerNight = 4000,
                     Description = "Ekstrem hytte",
                     ImageUrl = "/images/hytte_stock_3.jpg",
-                    UserId = user1Id
+                    UserId = user1Id, 
+                    Capacity = 7,
+                    Location = "Viken"
                 },
 
                 new Item
@@ -70,7 +76,9 @@ public class DBInit
                     PricePerNight = 2400,
                     Description = "Ekstrem hytte",
                     ImageUrl = "/images/hytte_stock_4.jpg",
-                    UserId = user2Id
+                    UserId = user2Id,
+                    Capacity = 5,
+                    Location = "Innlandet"
                 },
             };
             context.AddRange(items);
@@ -110,7 +118,6 @@ public class DBInit
             context.SaveChanges();
         }
 
-
         if (!context.Orders.Any())
         {
             var user1Id = userManager.FindByEmailAsync("user1@example.com").Result.Id;
@@ -119,27 +126,26 @@ public class DBInit
             {
                 new Order
                 {
-                    OrderDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                    OrderDate = DateTime.UtcNow,  // Bruker UTC tidspunkt
                     TotalPrice = 4000,
                     ItemId = 1,
-                    FromDate = DateTime.Now,  // Legg til en verdi for FromDate
-                    ToDate = DateTime.Now.AddDays(5),  // Legg til en verdi for ToDate
+                    FromDate = DateTime.UtcNow,  // Bruker UTC tidspunkt
+                    ToDate = DateTime.UtcNow.AddDays(5),  // Bruker UTC tidspunkt
                     UserId = user1Id
                 },
                 new Order
                 {
-                    OrderDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                    OrderDate = DateTime.UtcNow,  // Bruker UTC tidspunkt
                     TotalPrice = 3000,
                     ItemId = 2,
-                    FromDate = DateTime.Now,  // Legg til en verdi for FromDate
-                    ToDate = DateTime.Now.AddDays(3),  // Legg til en verdi for ToDate
+                    FromDate = DateTime.UtcNow,  // Bruker UTC tidspunkt
+                    ToDate = DateTime.UtcNow.AddDays(3),  // Bruker UTC tidspunkt
                     UserId = user2Id
                 },
             };
             context.AddRange(orders);
             context.SaveChanges();
         }
-
     }
 }
 
