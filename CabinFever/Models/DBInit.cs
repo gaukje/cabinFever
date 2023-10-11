@@ -77,6 +77,40 @@ public class DBInit
             context.SaveChanges();
         }
 
+        if (!context.ItemAvailability.Any())
+        {
+            // Legg til item availabilities
+            var startDate = DateTime.Now;
+            var endDate = startDate.AddDays(60); // 60 dager fra nå
+
+            var itemAvailabilities = new List<ItemAvailability>();
+
+            foreach (var item in context.Items)
+            {
+                for (var date = startDate; date < endDate; date = date.AddDays(1))
+                {
+                    var isAvailable = true;
+
+                    // Eksempel: Gjør item utilgjengelig på tilfeldige dager
+                    if (date.DayOfWeek == DayOfWeek.Friday && new Random().Next(2) == 0) // 50% sjanse for at en fredag er utilgjengelig
+                    {
+                        isAvailable = false;
+                    }
+
+                    itemAvailabilities.Add(new ItemAvailability
+                    {
+                        Date = date,
+                        IsAvailable = isAvailable,
+                        ItemId = item.Id
+                    });
+                }
+            }
+
+            context.AddRange(itemAvailabilities);
+            context.SaveChanges();
+        }
+
+
         if (!context.Orders.Any())
         {
             var user1Id = userManager.FindByEmailAsync("user1@example.com").Result.Id;

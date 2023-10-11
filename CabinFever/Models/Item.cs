@@ -50,5 +50,8 @@ namespace CabinFever.Models
 
         // Navigation property for Orders
         public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+        // Navigation property for ItemAvailability
+        public virtual ICollection<ItemAvailability> ItemAvailabilities { get; set; } = new List<ItemAvailability>();
     }
 }

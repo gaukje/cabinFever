@@ -70,6 +70,28 @@ namespace CabinFever.Migrations
                     b.ToTable("Items");
                 });
 
+            modelBuilder.Entity("CabinFever.Models.ItemAvailability", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("ItemAvailability");
+                });
+
             modelBuilder.Entity("CabinFever.Models.Order", b =>
                 {
                     b.Property<int>("OrderId")
@@ -318,6 +340,17 @@ namespace CabinFever.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("CabinFever.Models.ItemAvailability", b =>
+                {
+                    b.HasOne("CabinFever.Models.Item", "Item")
+                        .WithMany("ItemAvailabilities")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+                });
+
             modelBuilder.Entity("CabinFever.Models.Order", b =>
                 {
                     b.HasOne("CabinFever.Models.Item", "Item")
@@ -394,6 +427,8 @@ namespace CabinFever.Migrations
 
             modelBuilder.Entity("CabinFever.Models.Item", b =>
                 {
+                    b.Navigation("ItemAvailabilities");
+
                     b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618

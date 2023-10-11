@@ -185,6 +185,27 @@ namespace CabinFever.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ItemAvailability",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    IsAvailable = table.Column<bool>(type: "INTEGER", nullable: false),
+                    ItemId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemAvailability", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ItemAvailability_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -259,6 +280,11 @@ namespace CabinFever.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_ItemAvailability_ItemId",
+                table: "ItemAvailability",
+                column: "ItemId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Items_UserId",
                 table: "Items",
                 column: "UserId");
@@ -296,6 +322,9 @@ namespace CabinFever.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "ItemAvailability");
 
             migrationBuilder.DropTable(
                 name: "Orders");
