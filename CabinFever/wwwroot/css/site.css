@@ -162,3 +162,7 @@ body {
     object-fit: cover;
 }
 
+.form-control[readonly] {
+    background-color: white;
+    cursor: pointer;
+}

@@ -41,15 +41,23 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="FromDate">Check-In</label>
-                                    <input name="FromDate" type="date" class="form-control" id="fromDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="" onchange="handleFromDate('fromDate')" />
+                                    <input name="FromDate" class="form-control" id="fromDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="" onchange="handleFromDate('fromDate')" readonly />
                                     <span class="text-danger">@ViewData["FromDateError"]</span>
+
+                                    <!-- 
+                                    <input type="text" class="form-control" id="fromDateDatepicker" />
+                                    -->
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="ToDate">Checkout</label>
-                                    <input name="ToDate" type="date" class="form-control" id="toDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="" onChange="handleToDate('toDate')" />
+                                    <input name="ToDate" class="form-control" id="toDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="" onChange="handleToDate('toDate')" readonly/>
                                     <span class="text-danger">@ViewData["ToDateError"]</span>
+
+                                    <!--
+                                    <input type="text" class="form-control" id="toDateDatepicker" />
+                                    -->
                                 </div>
                             </div>
                         </div>
@@ -131,15 +139,45 @@
     var intFromDate;
     var intToDate;
 
+    var array = ["2023-10-14", "2023-10-16", "2023-10-18", "2023-10-27", "2023-10-28", "2023-10-29"]
+
+    $(document).ready(function () {
+        $(function () {
+            $("#fromDate").datepicker({
+                minDate: new Date(),
+                beforeShowDay: function (date) {
+                    var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
+                    return [array.indexOf(dateString) == -1]
+                }
+            });
+            $("#toDate").datepicker({
+                minDate: new Date(),
+                beforeShowDay: function (date) {
+                    var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
+                    return [array.indexOf(dateString) == -1]
+                }
+            });
+        });
+    })
+
     function handleFromDate(date) {
         // Get the selected date from the check-in input
         selectFromDate = document.getElementById(date).value;
 
         // Calculate the validation for the checkout date by adding one day to the selected date from the check-in input
-        var fromDateAddOneDay = new Date(new Date(selectFromDate).setDate(new Date(selectFromDate).getDate() + 1)).toISOString().split('T')[0];
+        var fromDateAddOneDay = new Date(new Date(selectFromDate).setDate(new Date(selectFromDate).getDate() + 1));
 
         // Set the minimum value for the "toDate" input to the calculated check-out date
         document.getElementById("toDate").min = fromDateAddOneDay;
+
+        $("#toDate").datepicker("destroy");
+        $("#toDate").datepicker({
+            minDate: fromDateAddOneDay,
+            beforeShowDay: function (date) {
+                var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
+                return [array.indexOf(dateString) == -1]
+            }
+        });
 
         // Reset the value of the "toDate" input, if the user has been using the check-in/checkout more than once
         document.getElementById("toDate").value = "";
@@ -172,7 +210,7 @@
 
     function calculateDateDifference() {
         // Calculating the difference between check-in and checkout dates
-        var timeDifference = (intToDate - intFromDate) / (1000 * 3600 * 24);
+        var timeDifference = Math.floor((intToDate - intFromDate) / (1000 * 3600 * 24));
 
         // Plural if the difference is more than one
         if (timeDifference > 1) {
