@@ -47,5 +47,13 @@
 
 <div>
     <h3>Cabins you rent:</h3>
+    @if (Model.Items.Any(i => i.UserId == userId))
+    {
+        <partial name="_ItemTable" model="Model.Items.Where(i => i.UserId == userId)" />
+    }
+    else
+    {
+        <p>No items to display.</p>
+    }
     <!-- Her kan du legge til en annen filtrering og delvis visning hvis du har en måte å identifisere hytter brukeren leier -->
 </div>

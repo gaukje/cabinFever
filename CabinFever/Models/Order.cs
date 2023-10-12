@@ -10,7 +10,7 @@ namespace CabinFever.Models
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
 
         // Foreign key for AspNetUsers table.
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
 
         // Navigation property
         public virtual IdentityUser? User { get; set; } = default!;
