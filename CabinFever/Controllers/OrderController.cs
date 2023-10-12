@@ -43,6 +43,10 @@ namespace CabinFever.Controllers
             // Sett UserId på order
             order.UserId = userId;
 
+            var itemId = Request.Form["ItemId"];
+            order.ItemId = Convert.ToInt32(itemId);
+            _logger.LogInformation("ItemId from form: {ItemId}", itemId);
+
             // Log the order state
             _logger.LogInformation("Order before saving: {@Order}", order);
 
