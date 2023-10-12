@@ -15,20 +15,68 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-4 d-flex align-items-center justify-content-center position-absolute top-50 start-50 translate-middle mt-5">
+            <select id="locationSearch">
+                <option value="" selected disabled hidden>Search by Location</option>
+                <option value="All">All</option>
+                <option value="Agder">Agder</option>
+                <option value="Innlandet">Innlandet</option>
+                <option value="Møre og Romsdal">Møre og Romsdal</option>
+                <option value="Nordland">Nordland</option>
+                <option value="Oslo">Oslo</option>
+                <option value="Rogaland">Rogaland</option>
+                <option value="Troms og Finnmark">Troms og Finnmark</option>
+                <option value="Trøndelag">Trøndelag</option>
+                <option value="Vestfold og Telemark">Vestfold og Telemark</option>
+                <option value="Vestland">Vestland</option>
+                <option value="Viken">Viken</option>
+            </select>
+        </div>
+    </div>
 </div>
 
 <div class="container my-5">
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="row row-cols-1 row-cols-md-3 g-4" id="itemContainer">
+        <p class="d-none" id="itemEmpty">No items to display.</p>
         @if (Model.Items.Any())
         {
             foreach (var item in Model.Items)
             {
-                <partial name="_ItemCard" model="item" />
+                <div class="item" data-location="@item.Location">
+                    <partial name="_ItemCard" model="item" />
+                </div>
             }
-        }
-        else
-        {
-            <p>No items to display.</p>
         }
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $("#locationSearch").change(function () {
+            let getLocation = $(this).val();
+            searchLocation(getLocation);
+        });
+    });
+
+    function searchLocation(location) {
+        // Hide all items
+        $("#itemContainer .item").hide();
+        $("#itemEmpty").addClass("d-none");
+
+        if (location === "All") {
+            // Show all items
+            $("#itemContainer .item").show();
+        } else {
+            // Show only items that match the selected location
+            $("#itemContainer .item[data-location='" + location + "']").show();
+        }
+
+        // If no items are visible after filtering, show the no items message
+        if ($("#itemContainer .item:visible").length === 0) {
+            $("#itemEmpty").removeClass("d-none");
+        }
+    }
+</script>
+
+
