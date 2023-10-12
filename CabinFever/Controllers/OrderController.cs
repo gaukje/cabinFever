@@ -30,6 +30,11 @@ namespace CabinFever.Controllers
         [Authorize]
         public IActionResult Create()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account"); // Redirect to login page
+            }
+
             return View();
         }
 
@@ -37,18 +42,19 @@ namespace CabinFever.Controllers
         [Authorize]
         public async Task<IActionResult> Create(Order order)
         {
-            // Hent UserId
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account"); // Redirect to login page if not authenticated
+            }
+
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (userId != null)
             {
-                // Sett UserId på order
                 order.UserId = userId;
 
-                // Log the order state
                 _logger.LogInformation("Order before saving: {@Order}", order);
 
-                // Oppdater ModelState manuelt
                 ModelState.Clear();
                 TryValidateModel(order);
 
@@ -62,7 +68,6 @@ namespace CabinFever.Controllers
                         }
                     }
 
-                    // Return the view with the model to display validation error messages
                     return View(order);
                 }
 
@@ -73,22 +78,16 @@ namespace CabinFever.Controllers
                 }
                 catch (Exception ex)
                 {
-                    // Log any exception that occurs
                     _logger.LogError(ex, "Error occurred while saving order: {@Order}", order);
-                    throw; // Re-throw the exception to be handled by the middleware or for further debugging
+                    throw;
                 }
 
-                // Redirect to another action as per your flow
                 return RedirectToAction("Index", "Home");
             }
-            else
-            {
-                return RedirectToAction("MinSide", "HomeController");
-            }
+
+            // In case something unexpected happens
+            return RedirectToAction("Error", "Home");
         }
-
-
-
 
         private decimal CalculateTotalPrice(Item item, int guests, int numberOfNights)
         {
