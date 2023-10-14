@@ -125,18 +125,23 @@
                         <input name="TotalPrice" type="number" step="0.01" class="form-control" id="totalPrice" />
                         <span class="text-danger">@ViewData["TotalPriceError"]</span>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100" @if (User.Identity.IsAuthenticated) { }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        // User is logged in, the button is enabled
+                        <button type="submit" class="btn btn-primary w-100">Reserve</button>
+                    }
                     else
                     {
-                        <text>disabled</text>
-                    }>Reserve</button>
-
+                        // User is not logged in, the button is disabled with a message
+                        <button type="button" class="btn btn-primary w-100" disabled>Reserve</button>
+                        <p class="text-danger mt-2">Log in to make a reservation.</p>
+                    }
                 </form>
             </div>
         </div>
     </div>
 </div>
-
+*
 <script>
     var selectFromDate;
     var selectToDate;

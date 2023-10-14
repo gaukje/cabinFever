@@ -28,44 +28,64 @@ namespace CabinFever.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(Order order)
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                // User is not authenticated, handle it accordingly
-                // You can redirect back to the reservation page or display an error message
-                // For example, you can add a ModelState error and return to the view:
-                ModelState.AddModelError(string.Empty, "You must be logged in to create an order.");
-                return View(order);
-            }
+            // Hent UserId
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            // User is already logged in
-            if (ModelState.IsValid)
+            if (userId != null)
             {
-                // Your order creation logic here
+                // Sett UserId på order
+                order.UserId = userId;
+
+                // Log the order state
+                _logger.LogInformation("Order before saving: {@Order}", order);
+
+                // Oppdater ModelState manuelt
+                ModelState.Clear();
+                TryValidateModel(order);
+
+                if (!ModelState.IsValid)
+                {
+                    foreach (var state in ModelState)
+                    {
+                        foreach (var error in state.Value.Errors)
+                        {
+                            _logger.LogError("Model validation error for {Key}: {ErrorMessage}", state.Key, error.ErrorMessage);
+                        }
+                    }
+
+                    // Return the view with the model to display validation error messages
+                    return View(order);
+                }
+
                 try
                 {
                     _itemDbContext.Orders.Add(order);
                     await _itemDbContext.SaveChangesAsync();
-                    return RedirectToAction("Index", "Home"); // Redirect to a success page
                 }
                 catch (Exception ex)
                 {
+                    // Log any exception that occurs
                     _logger.LogError(ex, "Error occurred while saving order: {@Order}", order);
-                    // Handle the exception more gracefully, e.g., by displaying an error page to the user.
-                    return RedirectToAction("Error", "Home");
+                    throw; // Re-throw the exception to be handled by the middleware or for further debugging
                 }
-            }
 
-            // If ModelState is not valid, return to the Create view to display validation errors
-            return View(order);
+                // Redirect to another action as per your flow
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return RedirectToAction("MinSide", "HomeController");
+            }
         }
 
         private decimal CalculateTotalPrice(Item item, int guests, int numberOfNights)
@@ -81,4 +101,3 @@ namespace CabinFever.Controllers
         }
     }
 }
-
