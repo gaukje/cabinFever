@@ -62,18 +62,17 @@ namespace CabinFever.Controllers
 
             try
             {
-                _itemDbContext.Orders.Add(order);           //Legge til ordre i database
+                _itemDbContext.Orders.Add(order);           //Legger til ordre i database
                 await _itemDbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                // Log any exception that occurs
                 _logger.LogError(ex, "Error occurred while saving order: {@Order}", order);     //Log hvis feil oppstår
                 throw; 
             }
             return RedirectToAction("Index", "Home");        
         }
-
+        /*
         private decimal CalculateTotalPrice(Item item, int guests, int numberOfNights)
         {
             decimal pricePerNight = item.PricePerNight;
@@ -85,5 +84,6 @@ namespace CabinFever.Controllers
 
             return totalPrice;
         }
+        */
     }
 }
