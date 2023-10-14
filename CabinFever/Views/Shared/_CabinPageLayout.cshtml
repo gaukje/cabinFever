@@ -119,15 +119,19 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="form-group d-none">
                         <label for="TotalPrice">Total Price</label>
                         <input name="TotalPrice" type="number" step="0.01" class="form-control" id="totalPrice" />
                         <span class="text-danger">@ViewData["TotalPriceError"]</span>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Reserve</button>
+                    <button type="submit" class="btn btn-primary w-100" @if (User.Identity.IsAuthenticated) { }
+                    else
+                    {
+                        <text>disabled</text>
+                    }>Reserve</button>
+
                 </form>
-
-
             </div>
         </div>
     </div>

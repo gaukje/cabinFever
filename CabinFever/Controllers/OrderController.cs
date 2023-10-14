@@ -35,7 +35,6 @@ namespace CabinFever.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Create(Order order)
         {
             if (!User.Identity.IsAuthenticated)
