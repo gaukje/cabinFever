@@ -33,6 +33,13 @@ namespace CabinFever.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult GetFromDates(int itemId)
+        {
+            var fromDates = _itemDbContext.Orders.Where(order => order.ItemId == itemId).Select(order => order.FromDate).ToList();
+            return Json(fromDates);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(Order order)
         {

@@ -26,6 +26,18 @@
             <hr class="hr hr-blurry" />
 
             <p>@Model.Description</p>
+
+            <table id="fromDateTable" border="1">
+                <thead>
+                    <tr>
+                        <th>FromDate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be inserted here -->
+                </tbody>
+            </table>
+
         </div>
 
         <div class="col-lg-4">
@@ -74,7 +86,7 @@
                     <div class="section d-none mb-4" id="listReserve">
                         <div class="row">
                             <div class="col-7">
-                                <p>@Model.PricePerNight.ToString("C", CultureInfo.CreateSpecificCulture("no-NO")) &#215; <span id="countDays"></span></p>
+                                <p>@Model.PricePerNight.ToString("N2", CultureInfo.CreateSpecificCulture("no-NO")) kr &#215; <span id="countDays"></span></p>
                             </div>
                             <div class="col-5 text-end">
                                 <p><span id="costPerNight"></span></p>
@@ -146,11 +158,37 @@
     var intFromDate;
     var intToDate;
 
-    var array = ["2023-10-14", "2023-10-16", "2023-10-18", "2023-10-27", "2023-10-28", "2023-10-29"]
+    var array = [];
 
     $(document).ready(function () {
+        $.ajax({
+            url: '/Order/GetFromDates?itemId=' + @Model.Id,
+            type: 'GET',
+            success: function (data) {
+                array = data.map(function (fromDate) {
+                    return fromDate.substring(0, 10);
+                });
+                populateTable(array);
+            },
+            error: function () {
+                console.error('Error fetching data.');
+            }
+        });
+
+        function populateTable(data) {
+            var tableBody = $('#fromDateTable tbody');
+            tableBody.empty();
+
+            data.forEach(function (fromDate) {
+                var row = $('<tr>');
+                row.append($('<td>').text(fromDate));
+                tableBody.append(row);
+            });
+        }
+
         $(function () {
             $("#fromDate").datepicker({
+                dateFormat: "yy-mm-dd",
                 minDate: new Date(),
                 beforeShowDay: function (date) {
                     var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
@@ -158,6 +196,7 @@
                 }
             });
             $("#toDate").datepicker({
+                dateFormat: "yy-mm-dd",
                 minDate: new Date(),
                 beforeShowDay: function (date) {
                     var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
@@ -179,6 +218,7 @@
 
         $("#toDate").datepicker("destroy");
         $("#toDate").datepicker({
+            dateFormat: "yy-mm-dd",
             minDate: fromDateAddOneDay,
             beforeShowDay: function (date) {
                 var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
