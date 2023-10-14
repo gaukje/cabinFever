@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using CabinFever.DAL;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Newtonsoft.Json;
 
 namespace CabinFever.Controllers
 {
@@ -30,11 +31,6 @@ namespace CabinFever.Controllers
         [Authorize]
         public IActionResult Create()
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Login", "Account"); // Redirect to login page
-            }
-
             return View();
         }
 
@@ -44,49 +40,33 @@ namespace CabinFever.Controllers
         {
             if (!User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Login", "Account"); // Redirect to login page if not authenticated
+                // User is not authenticated, handle it accordingly
+                // You can redirect back to the reservation page or display an error message
+                // For example, you can add a ModelState error and return to the view:
+                ModelState.AddModelError(string.Empty, "You must be logged in to create an order.");
+                return View(order);
             }
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (userId != null)
+            // User is already logged in
+            if (ModelState.IsValid)
             {
-                order.UserId = userId;
-
-                _logger.LogInformation("Order before saving: {@Order}", order);
-
-                ModelState.Clear();
-                TryValidateModel(order);
-
-                if (!ModelState.IsValid)
-                {
-                    foreach (var state in ModelState)
-                    {
-                        foreach (var error in state.Value.Errors)
-                        {
-                            _logger.LogError("Model validation error for {Key}: {ErrorMessage}", state.Key, error.ErrorMessage);
-                        }
-                    }
-
-                    return View(order);
-                }
-
+                // Your order creation logic here
                 try
                 {
                     _itemDbContext.Orders.Add(order);
                     await _itemDbContext.SaveChangesAsync();
+                    return RedirectToAction("Index", "Home"); // Redirect to a success page
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Error occurred while saving order: {@Order}", order);
-                    throw;
+                    // Handle the exception more gracefully, e.g., by displaying an error page to the user.
+                    return RedirectToAction("Error", "Home");
                 }
-
-                return RedirectToAction("Index", "Home");
             }
 
-            // In case something unexpected happens
-            return RedirectToAction("Error", "Home");
+            // If ModelState is not valid, return to the Create view to display validation errors
+            return View(order);
         }
 
         private decimal CalculateTotalPrice(Item item, int guests, int numberOfNights)
