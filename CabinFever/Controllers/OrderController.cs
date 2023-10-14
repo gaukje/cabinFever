@@ -28,64 +28,50 @@ namespace CabinFever.Controllers
         }
 
         [HttpGet]
-        //[Authorize]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Create(Order order)
         {
-            // Hent UserId
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);            // Hent UserId
+            order.UserId = userId;                                              // Sett UserId på order
 
-            if (userId != null)
+            // Log the order state
+            _logger.LogInformation("Order before saving: {@Order}", order);
+
+            // Oppdater ModelState manuelt
+            ModelState.Clear();
+            TryValidateModel(order);
+
+            // Sjekker om ModelState er gyldig og 'logger' dersom bruker har oppgitt info som ikke oppfyller krav
+            if (!ModelState.IsValid)
             {
-                // Sett UserId på order
-                order.UserId = userId;
-
-                // Log the order state
-                _logger.LogInformation("Order before saving: {@Order}", order);
-
-                // Oppdater ModelState manuelt
-                ModelState.Clear();
-                TryValidateModel(order);
-
-                if (!ModelState.IsValid)
+                foreach (var state in ModelState)
                 {
-                    foreach (var state in ModelState)
+                    foreach (var error in state.Value.Errors)
                     {
-                        foreach (var error in state.Value.Errors)
-                        {
-                            _logger.LogError("Model validation error for {Key}: {ErrorMessage}", state.Key, error.ErrorMessage);
-                        }
+                        _logger.LogError("Model validation error for {Key}: {ErrorMessage}", state.Key, error.ErrorMessage);
                     }
-
-                    // Return the view with the model to display validation error messages
-                    return View(order);
                 }
-
-                try
-                {
-                    _itemDbContext.Orders.Add(order);
-                    await _itemDbContext.SaveChangesAsync();
-                }
-                catch (Exception ex)
-                {
-                    // Log any exception that occurs
-                    _logger.LogError(ex, "Error occurred while saving order: {@Order}", order);
-                    throw; // Re-throw the exception to be handled by the middleware or for further debugging
-                }
-
-                // Redirect to another action as per your flow
-                return RedirectToAction("Index", "Home");
+                return View(order);
             }
-            else
+
+            try
             {
-                return RedirectToAction("MinSide", "HomeController");
+                _itemDbContext.Orders.Add(order);           //Legge til ordre i database
+                await _itemDbContext.SaveChangesAsync();
             }
+            catch (Exception ex)
+            {
+                // Log any exception that occurs
+                _logger.LogError(ex, "Error occurred while saving order: {@Order}", order);     //Log hvis feil oppstår
+                throw; 
+            }
+            return RedirectToAction("Index", "Home");        
         }
 
         private decimal CalculateTotalPrice(Item item, int guests, int numberOfNights)
