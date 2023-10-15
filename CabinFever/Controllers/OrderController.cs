@@ -34,10 +34,23 @@ namespace CabinFever.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetFromDates(int itemId)
+        public IActionResult GetDateRange(int itemId)
         {
-            var fromDates = _itemDbContext.Orders.Where(order => order.ItemId == itemId).Select(order => order.FromDate).ToList();
-            return Json(fromDates);
+            var dateRanges = _itemDbContext.Orders.Where(order => order.ItemId == itemId && order.FromDate >= DateTime.Today)
+                .Select(order => new { order.FromDate, order.ToDate })
+                .ToList();
+
+            var dateList = new List<String>();
+
+            foreach (var dateRange in dateRanges)
+            {
+                for (var date = dateRange.FromDate; date <= dateRange.ToDate; date = date.AddDays(1))
+                {
+                    var stringDate = date.ToString("yyyy-MM-dd");
+                    dateList.Add(stringDate);
+                }
+            }
+            return Json(dateList);
         }
 
         [HttpPost]

@@ -27,16 +27,19 @@
 
             <p>@Model.Description</p>
 
+            <!-- For debugging reservation -->
             <table id="fromDateTable" border="1">
                 <thead>
                     <tr>
-                        <th>FromDate</th>
+                        <th>Reserved dates</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Data will be inserted here -->
                 </tbody>
             </table>
+            <p id="dateError">Checking overlapping dates...</p>
+            <!-- ------------------------ -->
 
         </div>
 
@@ -162,12 +165,10 @@
 
     $(document).ready(function () {
         $.ajax({
-            url: '/Order/GetFromDates?itemId=' + @Model.Id,
+            url: '/Order/GetDateRange?itemId=' + @Model.Id,
             type: 'GET',
             success: function (data) {
-                array = data.map(function (fromDate) {
-                    return fromDate.substring(0, 10);
-                });
+                array = data
                 populateTable(array);
             },
             error: function () {
@@ -246,12 +247,41 @@
         // Convert the checkout date to a integer
         intToDate = new Date(document.getElementById(date).value).getTime();
 
+        controllDate();
+
         if (selectFromDate != undefined) {
             // Function that calculatates the difference between check-in and checkout dates
             calculateDateDifference();
 
             // Show the reservation list
             document.getElementById("listReserve").classList.remove("d-none");
+        }
+    }
+
+    function controllDate() {
+        var fromDateObj = new Date(selectFromDate);
+        var toDateObj = new Date(selectToDate);
+        var overlapFound = false; 
+
+        console.log("From Date:", fromDateObj);
+        console.log("To Date:", toDateObj);
+
+        for (var currentDate = fromDateObj; currentDate <= toDateObj; currentDate.setDate(currentDate.getDate() + 1)) {
+            var currentDateStr = currentDate.toISOString().split('T')[0];
+
+            console.log("Checking date:", currentDateStr);
+
+            if (array.includes(currentDateStr)) {
+                overlapFound = true;
+                console.log("Overlap found on date:", currentDateStr);
+                break;
+            }
+        }
+
+        if (overlapFound) {
+            document.getElementById("dateError").innerText = "Selected dates overlap with existing reservations.";
+        } else {
+            document.getElementById("dateError").innerText = "Selected dates do not overlap with existing reservations.";
         }
     }
 
