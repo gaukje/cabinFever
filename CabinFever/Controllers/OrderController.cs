@@ -90,8 +90,22 @@ namespace CabinFever.Controllers
                 _logger.LogError(ex, "Error occurred while saving order: {@Order}", order);     //Log hvis feil oppstår
                 throw; 
             }
-            return RedirectToAction("Index", "Home");        
+            return RedirectToAction("Index", "Home");
+            //return RedirectToAction("OrderConfirmation", "Reservation", new { orderId = order.OrderId });
+
         }
+        /*
+        public IActionResult OrderConfirmation(int orderId)
+        {
+            // Retrieve the order details from the database based on orderId
+            // You can use the orderId to query the database and retrieve the order details
+            // For example:
+            var order = _itemDbContext.Orders.FirstOrDefault(o => o.OrderId == orderId);
+
+            // Pass the order to the view
+            return View(order);
+        }
+        */
         /*
         private decimal CalculateTotalPrice(Item item, int guests, int numberOfNights)
         {
