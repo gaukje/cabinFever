@@ -59,20 +59,20 @@
                                     <input name="FromDate" class="form-control" id="fromDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="" onchange="handleFromDate('fromDate')" readonly />
                                     <span class="text-danger">@ViewData["FromDateError"]</span>
 
-                                    <!-- 
-                                    <input type="text" class="form-control" id="fromDateDatepicker" />
-                                    -->
+                                    <!--
+                    <input type="text" class="form-control" id="fromDateDatepicker" />
+                    -->
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="ToDate">Checkout</label>
-                                    <input name="ToDate" class="form-control" id="toDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="" onChange="handleToDate('toDate')" readonly/>
+                                    <input name="ToDate" class="form-control" id="toDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="" onChange="handleToDate('toDate')" readonly />
                                     <span class="text-danger">@ViewData["ToDateError"]</span>
 
                                     <!--
-                                    <input type="text" class="form-control" id="toDateDatepicker" />
-                                    -->
+                    <input type="text" class="form-control" id="toDateDatepicker" />
+                    -->
                                 </div>
                             </div>
                         </div>
@@ -148,6 +148,7 @@
                     {
                         <button type="button" class="btn btn-primary w-100" disabled>Reserve</button> //Disable button
                         <p class="text-danger mt-2">Log in to make a reservation.</p>
+                        <a href="/Identity/Account/Login">Log in</a>//redirecta til login side
                     }
                 </form>
             </div>
