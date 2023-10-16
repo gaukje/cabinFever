@@ -163,6 +163,8 @@
             $("#fromDate").datepicker({
                 // Formating the date to year, month, date
                 dateFormat: "yy-mm-dd",
+                // Sets the first day of the week to Monday
+                firstDay: 1,
                 // Sets the minimum date to the date of today
                 minDate: new Date(),
                 // Removes the option to select existing reservations
@@ -176,6 +178,8 @@
             $("#toDate").datepicker({
                 // Formating the date to year, month, date
                 dateFormat: "yy-mm-dd",
+                // Sets the first day of the week to Monday
+                firstDay: 1,
                 // Sets the minimum date to the date of today
                 minDate: new Date(),
                 // Removes the option to select existing reservations
@@ -204,6 +208,7 @@
         $("#toDate").datepicker("destroy");
         $("#toDate").datepicker({
             dateFormat: "yy-mm-dd",
+            firstDay: 1,
             minDate: fromDateAddOneDay,
             beforeShowDay: function (date) {
                 var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
