@@ -14,32 +14,15 @@
         <div class="col-lg-8">
             <h4>Cabin hosted by</h4>
             @{
-                if (Model.Capacity > 1)
-                {
+                if (Model.Capacity > 1) {
                     <p>@Model.Capacity guests</p>
-                }
-                else
-                {
+                } else {
                     <p>@Model.Capacity guest</p>
                 }
             }
             <hr class="hr hr-blurry" />
 
             <p>@Model.Description</p>
-
-            <!-- For debugging reservation -->
-            <table id="fromDateTable" border="1">
-                <thead>
-                    <tr>
-                        <th>Reserved dates</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Data will be inserted here -->
-                </tbody>
-            </table>
-            <p id="dateError">Checking overlapping dates...</p>
-            <!-- ------------------------ -->
 
         </div>
 
@@ -56,23 +39,15 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="FromDate">Check-In</label>
-                                    <input name="FromDate" class="form-control" id="fromDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="" onchange="handleFromDate('fromDate')" readonly />
+                                    <input name="FromDate" class="form-control" id="fromDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="" placeholder="Add dates" onchange="handleFromDate('fromDate')" readonly />
                                     <span class="text-danger">@ViewData["FromDateError"]</span>
-
-                                    <!--
-                    <input type="text" class="form-control" id="fromDateDatepicker" />
-                    -->
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="ToDate">Checkout</label>
-                                    <input name="ToDate" class="form-control" id="toDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="" onChange="handleToDate('toDate')" readonly />
+                                    <input name="ToDate" class="form-control" id="toDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="" placeholder="Add dates" onChange="handleToDate('toDate')" readonly />
                                     <span class="text-danger">@ViewData["ToDateError"]</span>
-
-                                    <!--
-                    <input type="text" class="form-control" id="toDateDatepicker" />
-                    -->
                                 </div>
                             </div>
                         </div>
@@ -80,11 +55,12 @@
                         <div class="row">
                             <div class="form-group">
                                 <label for="Guests">Guests</label>
-                                <input name="Guests" type="number" class="form-control" />
+                                <input name="Guests" type="number" class="form-control" min="1" max="@Model.Capacity" placeholder="Add guests" />
                                 <span class="text-danger">@ViewData["GuestsError"]</span>
                             </div>
                         </div>
                     </div>
+                    <p><span class="text-danger" id="errorDateOverlap"></span></p>
 
                     <div class="section d-none mb-4" id="listReserve">
                         <div class="row">
@@ -142,89 +118,94 @@
                     </div>
                     @if (User.Identity.IsAuthenticated)     //User is logged in
                     {
-                        <button type="submit" class="btn btn-primary w-100">Reserve</button> //Enable button
+                        <button type="submit" class="btn btn-primary w-100" id="buttonReserve">Reserve</button> //Enable button
                     }
                     else    //User is not logged in
                     {
-                        <button type="button" class="btn btn-primary w-100" disabled>Reserve</button> //Disable button
-                        <p class="text-danger mt-2">Log in to make a reservation.</p>
-                        <a href="/Identity/Account/Login">Log in</a>//redirecta til login side
+                        <a href="/Identity/Account/Login" class="btn btn-primary w-100" id="buttonReserve">Log in to make a reservation</a>
+                        //redirecta til login side
                     }
                 </form>
             </div>
         </div>
     </div>
 </div>
-*
+
+
 <script>
     var selectFromDate;
     var selectToDate;
     var intFromDate;
     var intToDate;
+    var listReservedDates = [];
 
-    var array = [];
-
+    // Sending an AJAX request to retrieve a data containing a range of reserved dates
     $(document).ready(function () {
         $.ajax({
+            // Destination of the request
             url: '/Order/GetDateRange?itemId=' + @Model.Id,
+            // HTTP GET request
             type: 'GET',
+            // Stores the retrieved data if the request is successful 
             success: function (data) {
-                array = data
-                populateTable(array);
+                listReservedDates = data
             },
+            // Printing an error message in the console if the request failed
             error: function () {
                 console.error('Error fetching data.');
             }
         });
 
-        function populateTable(data) {
-            var tableBody = $('#fromDateTable tbody');
-            tableBody.empty();
-
-            data.forEach(function (fromDate) {
-                var row = $('<tr>');
-                row.append($('<td>').text(fromDate));
-                tableBody.append(row);
-            });
-        }
-
         $(function () {
+            // Initialising the attributes of the check-in calender
             $("#fromDate").datepicker({
+                // Formating the date to year, month, date
                 dateFormat: "yy-mm-dd",
+                // Sets the minimum date to the date of today
                 minDate: new Date(),
+                // Removes the option to select existing reservations
                 beforeShowDay: function (date) {
                     var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
-                    return [array.indexOf(dateString) == -1]
+                    return [listReservedDates.indexOf(dateString) == -1]
                 }
             });
+
+            // Initialising the attributes of the checkout calender
             $("#toDate").datepicker({
+                // Formating the date to year, month, date
                 dateFormat: "yy-mm-dd",
+                // Sets the minimum date to the date of today
                 minDate: new Date(),
+                // Removes the option to select existing reservations
                 beforeShowDay: function (date) {
                     var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
-                    return [array.indexOf(dateString) == -1]
+                    return [listReservedDates.indexOf(dateString) == -1]
                 }
             });
         });
     })
 
     function handleFromDate(date) {
-        // Get the selected date from the check-in input
+        // Getting the selected date from the check-in input
         selectFromDate = document.getElementById(date).value;
 
-        // Calculate the validation for the checkout date by adding one day to the selected date from the check-in input
+        // Clearing out the error message if there is an error message for over the second time
+        document.getElementById("errorDateOverlap").innerText = "";
+
+        // Calculating the validation for the checkout date by adding one day to the selected date from the check-in input
         var fromDateAddOneDay = new Date(new Date(selectFromDate).setDate(new Date(selectFromDate).getDate() + 1));
 
-        // Set the minimum value for the "toDate" input to the calculated check-out date
+        // Setting the minimum value for the "toDate" input to the calculated check-out date
         document.getElementById("toDate").min = fromDateAddOneDay;
 
+        // Updating the attributes of the checkout calender 
         $("#toDate").datepicker("destroy");
         $("#toDate").datepicker({
             dateFormat: "yy-mm-dd",
             minDate: fromDateAddOneDay,
             beforeShowDay: function (date) {
                 var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
-                return [array.indexOf(dateString) == -1]
+                return [listReservedDates.indexOf(dateString) == -1]
             }
         });
 
@@ -248,41 +229,47 @@
         // Convert the checkout date to a integer
         intToDate = new Date(document.getElementById(date).value).getTime();
 
+        // Continues to the function that checks if there is an existing reservation between the selected dates
         controllDate();
-
-        if (selectFromDate != undefined) {
-            // Function that calculatates the difference between check-in and checkout dates
-            calculateDateDifference();
-
-            // Show the reservation list
-            document.getElementById("listReserve").classList.remove("d-none");
-        }
     }
 
     function controllDate() {
+        // Converting the selected dates to JavaScript Date objects
         var fromDateObj = new Date(selectFromDate);
         var toDateObj = new Date(selectToDate);
-        var overlapFound = false; 
 
-        console.log("From Date:", fromDateObj);
-        console.log("To Date:", toDateObj);
+        // Initialise a flag to track overlap status
+        var overlapFound = false;
 
+        // Looping through the date range from "From"-date to "To"-date
         for (var currentDate = fromDateObj; currentDate <= toDateObj; currentDate.setDate(currentDate.getDate() + 1)) {
+            // Converts the current date to a string in 'yyyy-mm-dd' format (same format as "listReserveDate")
             var currentDateStr = currentDate.toISOString().split('T')[0];
 
-            console.log("Checking date:", currentDateStr);
-
-            if (array.includes(currentDateStr)) {
+            // Checks if the current date is in the list of reserved dates
+            if (listReservedDates.includes(currentDateStr)) {
+                // Sets the overlap flag to true if an overlap is found
                 overlapFound = true;
-                console.log("Overlap found on date:", currentDateStr);
+                // Exits the loop since an overlap has been detected
                 break;
             }
         }
 
+        // Disables the button if there is an overlap in the selected dates
         if (overlapFound) {
-            document.getElementById("dateError").innerText = "Selected dates overlap with existing reservations.";
+            document.getElementById("errorDateOverlap").innerText = "Please choose alternative dates, as the selected dates are overlapping with existing reservations.";
+            document.getElementById("buttonReserve").disabled = true;
+
+            // Enables the button if there is not an overlap in the selected dates
         } else {
-            document.getElementById("dateError").innerText = "Selected dates do not overlap with existing reservations.";
+            document.getElementById("buttonReserve").disabled = false;
+            if (selectFromDate !== undefined) {
+                // Continues to the function that calculates the difference between check-in and checkout dates
+                calculateDateDifference();
+
+                // Shows the reservation list
+                document.getElementById("listReserve").classList.remove("d-none");
+            }
         }
     }
 

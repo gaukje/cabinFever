@@ -36,7 +36,7 @@ namespace CabinFever.Controllers
         [HttpGet]
         public IActionResult GetDateRange(int itemId)
         {
-            var dateRanges = _itemDbContext.Orders.Where(order => order.ItemId == itemId && order.FromDate >= DateTime.Today)
+            var dateRanges = _itemDbContext.Orders.Where(order => order.ItemId == itemId && order.ToDate >= DateTime.Today)
                 .Select(order => new { order.FromDate, order.ToDate })
                 .ToList();
 

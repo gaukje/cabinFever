@@ -166,3 +166,12 @@ body {
     background-color: white;
     cursor: pointer;
 }
+
+.ui-datepicker {
+    font-family: 'Cabin', sans-serif;
+}
+
+.ui-datepicker-header {
+    background-color: #007A6E;
+    color: white;
+}
