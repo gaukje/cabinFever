@@ -161,6 +161,10 @@ body {
     cursor: pointer;
 }
 
+#container-description {
+    white-space: pre-wrap;
+}
+
 .ui-datepicker {
     font-family: 'Cabin', sans-serif;
 }

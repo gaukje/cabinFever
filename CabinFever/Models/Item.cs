@@ -30,7 +30,7 @@ namespace CabinFever.Models
 
         public int Capacity { get; set; }
 
-        [StringLength(200)]
+        [StringLength(5000)]
         public string? Description { get; set; }
 
         public string? Fylke { get; set; }

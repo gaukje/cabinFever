@@ -24,12 +24,11 @@
             }
             <hr class="hr hr-blurry" />
 
-            <p>@Model.Description</p>
-
+            <div id="container-description">@Model.Description</div>
         </div>
 
         <div class="col-lg-4">
-            <div class="sticky-box position-sticky top-0 bg-light border border-dark-subtle rounded-3 p-4">
+            <div class="bg-light border border-dark-subtle rounded-3 p-4">
                 <div class="row mb-2">
                     <b>@Model.PricePerNight.ToString("N2", CultureInfo.CreateSpecificCulture("no-NO")) kr per night</b>
                 </div>

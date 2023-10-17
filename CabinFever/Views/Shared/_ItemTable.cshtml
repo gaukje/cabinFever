@@ -22,7 +22,7 @@
                 </td>
                 <td>@item.Location</td>
                 <td>@item.PricePerNight.ToString("0.00 NOK")</td>
-                <td>@item.Description</td>
+                <td>@(item.Description.Length > 150 ? item.Description.Substring(0, 150) + "..." : item.Description)</td>
                 <td>
                     <img src="@item.ImageUrl" alt="Item Image" style="max-width: 80px; max-height: 80px;" />
                 </td>
