@@ -1,13 +1,26 @@
-﻿@model CabinFever.Models.Order
+﻿@model IEnumerable<Order>
 
-<h2>Order Confirmation</h2>
-<p>Thank you for your order. Your order details:</p>
-
-<p><strong>Order ID:</strong> @Model.OrderId</p>
-<p><strong>Order Date:</strong> @Model.OrderDate</p>
-
-<p>Your order has been successfully placed. Thank you for choosing our service.</p>
-
-<a href="~/">
-    <button class="btn btn-primary">Back to Home</button>
-</a>
+@if (Model.Any())
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Order Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.OrderId</td>
+                    <td>@order.OrderDate</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No order history to display</p>
+}

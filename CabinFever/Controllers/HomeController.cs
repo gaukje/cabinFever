@@ -6,6 +6,7 @@ using System.Threading.Tasks; // Husk å legge til denne importen for Task
 using CabinFever.DAL; // Husk å legge til denne importen for ItemRepository
 using CabinFever.ViewModels; // Husk å legge til denne importen for ItemListViewModel
 using System.Linq; // Husk å legge til denne importen for Enumerable.Empty
+using System.Security.Claims;
 
 namespace CabinFever.Controllers
 {
@@ -28,7 +29,11 @@ namespace CabinFever.Controllers
         public async Task<IActionResult> Rentals()
         {
             var items = await _itemRepository.GetAll(); // Hent alle items fra databasen
-            var model = new ItemListViewModel(items ?? Enumerable.Empty<Item>(), "Rentals"); // Send items to the view
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var orders = await _itemRepository.GetOrdersForUser(userId);
+
+            var model = new ItemListViewModel(items ?? Enumerable.Empty<Item>(), "Rentals", orders);// Send items to the view
 
             return View(model);
         }
@@ -41,7 +46,11 @@ namespace CabinFever.Controllers
         public async Task<IActionResult> MinSide() // Gjør denne metoden asynkron
         {
             var items = await _itemRepository.GetAll(); // Hent alle items fra databasen
-            var model = new ItemListViewModel(items ?? Enumerable.Empty<Item>(), "MinSide"); // Send items til visningen
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var orders = await _itemRepository.GetOrdersForUser(userId);
+
+            var model = new ItemListViewModel(items ?? Enumerable.Empty<Item>(), "MinSide", orders); // Send items til visningen
             return View(model);
         }
 

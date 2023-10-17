@@ -6,6 +6,7 @@
 @{
     ViewData["Title"] = "Min side";
     var userId = UserManager.GetUserId(User); // Hent brukerens ID
+    var userOrders = Model.Orders.Where(o => o.UserId == userId);
 }
 
 <div class="banner-secondary">
@@ -57,3 +58,16 @@
     }
     <!-- Her kan du legge til en annen filtrering og delvis visning hvis du har en måte å identifisere hytter brukeren leier -->
 </div>
+
+<div>
+    <h3>Order History</h3>
+    @if (Model.Orders.Any())  
+    {
+        <partial name="_OrderHistory" model="Model.Orders" /> 
+    } 
+    else
+    {
+        <p>No order history to display</p>
+    }
+</div>
+

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using CabinFever.ViewModels;
 using CabinFever.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 
 namespace CabinFever.Controllers;
@@ -69,24 +70,30 @@ public class ItemController : Controller
     public async Task<IActionResult> Table()
     {
         var items = await _itemRepository.GetAll();
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var orders = await _itemRepository.GetOrdersForUser(userId);
+
         if (items == null)
         {
             _logger.LogError("[ItemController] Item list not found while executing _itemRepository.GetAll()");
             return NotFound("Item list not found");
         }
-        var itemListViewModel = new ItemListViewModel(items, "Table");
+        var itemListViewModel = new ItemListViewModel(items, "Table", orders);
         return View(itemListViewModel);
     }
 
     public async Task<IActionResult> Grid()
     {
         var items = await _itemRepository.GetAll();
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var orders = await _itemRepository.GetOrdersForUser(userId);
+
         if (items == null)
         {
             _logger.LogError("[ItemController] Item list not found while executing _itemRepository.GetAll()");
             return NotFound("Item list not found");
         }
-        var itemListViewModel = new ItemListViewModel(items, "Grid");
+        var itemListViewModel = new ItemListViewModel(items, "Grid", orders);
         return View(itemListViewModel);
     }
 

@@ -9,6 +9,5 @@ public interface IItemRepository
     Task <bool> Create(Item item);
     Task <bool> Update(Item item);
     Task<bool> Delete(int id);
-
-    
+    Task<IEnumerable<Order>> GetOrdersForUser(string userId);
 }

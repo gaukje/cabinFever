@@ -99,5 +99,14 @@ public class ItemRepository : IItemRepository
             return false;
         }
     }
+
+    public async Task<IEnumerable<Order>> GetOrdersForUser(string userId)
+    {
+        var orders = await _db.Orders
+            .Where(o => o.UserId == userId)
+            .ToListAsync();
+
+        return orders;
+    }
 }
 
