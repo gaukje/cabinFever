@@ -90,34 +90,26 @@ namespace CabinFever.Controllers
                 _logger.LogError(ex, "Error occurred while saving order: {@Order}", order);     //Log hvis feil oppstår
                 throw; 
             }
-            return RedirectToAction("Index", "Home");
-            //return RedirectToAction("OrderConfirmation", "Reservation", new { orderId = order.OrderId });
+            //return RedirectToAction("Index", "Home");
+            return RedirectToAction("OrderConfirmation", new { orderId = order.OrderId });
 
         }
-        /*
+        
         public IActionResult OrderConfirmation(int orderId)
         {
             // Retrieve the order details from the database based on orderId
-            // You can use the orderId to query the database and retrieve the order details
-            // For example:
             var order = _itemDbContext.Orders.FirstOrDefault(o => o.OrderId == orderId);
 
+            // Check if the order was found
+            if (order == null)
+            {
+                // Handle the case where the order with the given ID doesn't exist
+                return NotFound(); // You might want to return a 404 Not Found response or handle it differently
+            }
+
             // Pass the order to the view
-            return View(order);
+            return View(order); // Here you're passing the order to the view
         }
-        */
-        /*
-        private decimal CalculateTotalPrice(Item item, int guests, int numberOfNights)
-        {
-            decimal pricePerNight = item.PricePerNight;
-            decimal cleaningFee = 400 + (pricePerNight * 0.05m);
-            decimal serviceFee = pricePerNight * 0.10m;
-            decimal taxes = pricePerNight * 0.025m;
-
-            decimal totalPrice = (pricePerNight * numberOfNights) + cleaningFee + serviceFee + taxes;
-
-            return totalPrice;
-        }
-        */
+        
     }
 }
