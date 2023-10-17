@@ -109,7 +109,6 @@ namespace CabinFever.Controllers
 
             // Pass the order to the view
             return View(order); // Here you're passing the order to the view
-        }
-        
+        }   
     }
 }
