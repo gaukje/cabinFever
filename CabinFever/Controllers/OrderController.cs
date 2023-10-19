@@ -94,7 +94,7 @@ namespace CabinFever.Controllers
             return RedirectToAction("OrderConfirmation", new { orderId = order.OrderId });
 
         }
-        
+
         public IActionResult OrderConfirmation(int orderId)
         {
             // Retrieve the order details from the database based on orderId
@@ -108,7 +108,7 @@ namespace CabinFever.Controllers
             }
 
             // Pass the order to the view
-            return View(order); // Here you're passing the order to the view
+            return View("OrderConfirmation", order); // Here you're passing the order to the view
         }   
     }
 }
