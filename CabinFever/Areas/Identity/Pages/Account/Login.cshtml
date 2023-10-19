@@ -2,29 +2,44 @@
 @model LoginModel
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = "Login";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
-    <div class="col-md-4">
+<style type="text/css">
+    body {
+        background-image: url("https://img.freepik.com/free-photo/wide-shot-brown-house-surrounded-by-forest-spruce-trees-clouds_181624-5123.jpg?w=1380&t=st=1697749972~exp=1697750572~hmac=beb865b7eab7f5d9db41044eb74f29440ef7929c4e7862b862a237429671f3a9");
+        margin: 0;
+    }
+</style>
+
+<div class="row d-flex justify-content-center mt-5">
+    <div class="col-md-4 m-5 p-4 text-center">
+        <h1 class="text-white">Welcome</h1>
+        <hr class="text-white" />
+        <p class="text-white">Here you can log in and see all your details as a guest or a host</p>
+        <div class="banner-link mb-3">
+            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Not a member yet? Become one!</a>
+        </div>
+    </div>
+
+    <div class="col-md-4 m-5 p-4 bg-light rounded">
         <section>
             <form id="account" method="post">
-                <h2>Use a local account to log in.</h2>
+                <h1 class="text-center">@ViewData["Title"]</h1>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-floating">
+                <div class="form-floating mb-2">
                     <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
                     <label asp-for="Input.Email" class="form-label"></label>
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                 </div>
-                <div class="form-floating">
+                <div class="form-floating mb-2">
                     <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
                     <label asp-for="Input.Password" class="form-label"></label>
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
                 <div>
-                    <div class="checkbox">
+                    <div class="checkbox mb-2">
                         <label asp-for="Input.RememberMe" class="form-label">
                             <input class="form-check-input" asp-for="Input.RememberMe" />
                             @Html.DisplayNameFor(m => m.Input.RememberMe)
@@ -32,14 +47,11 @@
                     </div>
                 </div>
                 <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary mb-2">Log in</button>
                 </div>
                 <div>
                     <p>
                         <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
                     </p>
                     <p>
                         <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
