@@ -21,9 +21,16 @@ namespace CabinFever.Controllers
             _itemRepository = itemRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var items = await _itemRepository.GetAll(); // Hent alle items fra databasen
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var orders = await _itemRepository.GetOrdersForUser(userId);
+
+            var model = new ItemListViewModel(items ?? Enumerable.Empty<Item>(), "Rentals", orders);// Send items to the view
+
+            return View(model);
         }
 
         public async Task<IActionResult> Rentals()
