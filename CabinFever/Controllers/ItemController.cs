@@ -67,7 +67,8 @@ public class ItemController : Controller
     }
 
 
-    public async Task<IActionResult> Table()
+    // Private, so the page isn't available for editing on .../Item/Table
+    private async Task<IActionResult> Table()
     {
         var items = await _itemRepository.GetAll();
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
