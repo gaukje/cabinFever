@@ -5,6 +5,9 @@
         <tr>
             <th>Order ID</th>
             <th>Order Date</th>
+            <th>Reservation time</th>
+            <th>Price</th>
+            <th>Number of Guests</th>
         </tr>
     </thead>
     <tbody>
@@ -13,6 +16,9 @@
             <tr>
                 <td>@order.OrderId</td>
                 <td>@order.OrderDate</td>
+                <td>@(order.ToDate.Subtract(order.FromDate).Days)</td>
+                <td>@order.TotalPrice</td>
+                <td>@order.Guests</td>
             </tr>
         }
     </tbody>
