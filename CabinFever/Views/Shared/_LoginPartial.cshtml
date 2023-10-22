@@ -6,11 +6,17 @@
 @{
     var userName = UserManager.GetUserName(User);
     var displayName = userName?.Split('@').FirstOrDefault() ?? userName;  // If userName is null, display it as is
+
+    var controller = Context.Request.RouteValues["Controller"];
+    var action = Context.Request.RouteValues["Action"];
 }
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+    <li class="nav-item">
+            <a id="manage" class="nav-link text-light  @(controller?.ToString() == "Item" && action?.ToString() == "Create" ? "fw-bold" : "")" asp-area="" asp-controller="Item" asp-action="Create">List your property</a>
+        </li>
     <li class="nav-item">
             <a id="manage" class="nav-link text-light" asp-controller="Home" asp-action="MinSide" title="My Profile">@displayName</a>
     </li>
