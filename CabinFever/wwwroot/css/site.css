@@ -173,3 +173,26 @@ body {
     background-color: #007A6E;
     color: white;
 }
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+    filter: invert(75%);
+}
+
+.carousel-control-next:hover .carousel-control-next-icon,
+.carousel-control-prev:hover .carousel-control-prev-icon {
+    filter: invert(100%); /* Adjust the percentage as needed */
+}
+
+@media (max-width: 768px) {
+    .carousel-control-next-icon,
+    .carousel-control-prev-icon {
+        filter: invert(0%);
+    }
+
+    .carousel-control-next:hover .carousel-control-next-icon,
+    .carousel-control-prev:hover .carousel-control-prev-icon {
+    filter: invert(0%); /* Adjust the percentage as needed */
+
+    }
+}

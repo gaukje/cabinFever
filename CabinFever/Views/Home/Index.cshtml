@@ -52,38 +52,55 @@
     </div>
 </div>
 
-<div class="row justify-content-center">
-    <div id="carouselIndex" class="carousel slide col-4" data-bs-ride="carousel">
+
+<!-- Carousel -->
+@{
+    // Converting the IEnumerable to a List for indexing the carousel
+    var itemsList = Model.Items.ToList(); 
+}
+
+<div class="row mb-5">
+    <div id="carouselIndex" class="carousel slide px-4" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                @foreach (var item in Model.Items)
-                {
-                    <div class="row">
-                        @if (item.Id == 1)
-                        {
-                            <partial name="_ItemCard" model="item" />
-                        }
-                    </div>
-                }
-            </div>
-            @foreach (var item in Model.Items)
-            {
-                @if (item.Id != 1)
-                {
-                    <div class="carousel-item">
-                        <div class="row">
+                <div class="row justify-content-center">
+                    @for (int i = 0; i < 2; i++)
+                    {
+                        var counter = i;
+                        var item = itemsList[counter];
+
+                        <div class="@(i % 2 == 0 ? "col-md-5 col-12" : "col-md-5 col-12 d-none d-md-block")">
                             <partial name="_ItemCard" model="item" />
                         </div>
+                    }
+                </div>
+            </div>
 
+            @for (int i = 0; i < 2; i++)
+            {
+                <div class="carousel-item">
+                    <div class="row justify-content-center">
+                    @for (int j = 0; j < 2; j++)
+                    {
+                        var counter = 2 + i * 2 + j;
+                        var item = itemsList[counter];
+
+                        <div class="@(j % 2 == 0 ? "col-md-5 col-12" : "col-md-5 col-12 d-none d-md-block")">
+                            <partial name="_ItemCard" model="item" />
+                        </div>
+                    }
                     </div>
-                }
+                </div>    
             }
         </div>
 
+        <!-- Previous button of the carousel -->
         <a class="carousel-control-prev" href="#carouselIndex" role="button" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
         </a>
+
+        <!-- Next button of the carousel -->
         <a class="carousel-control-next" href="#carouselIndex" role="button" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
