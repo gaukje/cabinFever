@@ -24,7 +24,7 @@
         <a class="btn btn-dark dropdown-toggle bi bi-person-circle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">&#9;@displayName</a>
 
         <!-- Dropdown items -->
-        <ul class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuLink">
+        <ul class="dropdown-menu bg-dark border-0" aria-labelledby="dropdownMenuLink">
             <li>
                     <a id="manage" class="nav-link bg-dark text-light dropdown-item @(controller?.ToString() == "Home" && action?.ToString() == "MinSide" ? "fw-bold" : "")" asp-controller="Home" asp-action="MinSide" title="My Profile">My profile</a>
             </li>
