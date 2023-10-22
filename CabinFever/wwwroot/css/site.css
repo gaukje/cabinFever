@@ -136,6 +136,11 @@ body {
     border-color: #007A6E;
 }
 
+.btn-primary:hover {
+    background-color: #00574E;
+    border-color: #00574E;
+}
+
 .banner-secondary {
     width: 100vw;
     height: 300px;
