@@ -196,3 +196,7 @@ body {
 
     }
 }
+
+.dropdown-item:hover {
+    background-color: transparent !important;
+}
