@@ -8,28 +8,31 @@ namespace CabinFever.Models
     {
         public int Id { get; set; }
 
-        [RegularExpression(@"[0-9a-zA-ZæøåÆØÅ. \-]{2,20}", ErrorMessage = "The Name must be numbers or letters and between 2 to 20 characters")]
+        [RegularExpression(@"[0-9a-zA-ZæøåÆØÅ. \-]{2,20}", ErrorMessage = "The Name must be numbers or letters and between 2 to 20 characters.")]
         [Display(Name = "Cabin name")]
         public string Name { get; set; } = string.Empty;
 
         [Required]
-        [Range(0.01, double.MaxValue, ErrorMessage = "The Price must be greater than 0")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "The Price must be greater than 0.")]
         public decimal PricePerNight { get; set; }
 
         [Display(Name = "From Date")]
         [DataType(DataType.Date)]
-        [Required(ErrorMessage = "Please select a From Date")]
+        [Required(ErrorMessage = "Please select a From Date.")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime FromDate { get; set; }
 
         [Display(Name = "To Date")]
         [DataType(DataType.Date)]
-        [Required(ErrorMessage = "Please select a To Date")]
+        [Required(ErrorMessage = "Please select a To Date.")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime ToDate { get; set; }
 
+        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "The Capacity must be greater than 0.")]
         public int Capacity { get; set; }
 
+        [Required]
         [StringLength(5000)]
         public string? Description { get; set; }
 
