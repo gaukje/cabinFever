@@ -1,51 +1,59 @@
 ﻿@model Item
 
-<h2>Create New Item</h2>
-
 <form asp-action="Create" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label asp-for="Name"></label><span class="text-danger">*</span>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h2>Create New Item</h2>
+
+            <div class="form-group mb-2">
+                <label asp-for="Name"></label><span class="text-danger">*</span>
+                <span asp-validation-for="Name" class="text-danger float-end"></span>
+                <input asp-for="Name" class="form-control" />
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="Location"></label><span class="text-danger">*</span>
+                <span asp-validation-for="Location" class="text-danger float-end"></span>
+                <select asp-for="Location" class="form-select">
+                    <option value="" selected disabled hidden>Choose a county</option>
+                    <option value="Agder">Agder</option>
+                    <option value="Innlandet">Innlandet</option>
+                    <option value="Møre og Romsdal">Møre og Romsdal</option>
+                    <option value="Nordland">Nordland</option>
+                    <option value="Oslo">Oslo</option>
+                    <option value="Rogaland">Rogaland</option>
+                    <option value="Troms og Finnmark">Troms og Finnmark</option>
+                    <option value="Trøndelag">Trøndelag</option>
+                    <option value="Vestfold og Telemark">Vestfold og Telemark</option>
+                    <option value="Vestland">Vestland</option>
+                    <option value="Viken">Viken</option>
+                </select>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="PricePerNight">Price per night</label><span class="text-danger">*</span>
+                <span asp-validation-for="PricePerNight" class="text-danger float-end"></span>
+                <input asp-for="PricePerNight" class="form-control" />
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="Capacity">Capacity of guests</label><span class="text-danger">*</span>
+                <span asp-validation-for="Capacity" class="text-danger float-end"></span>
+                <input asp-for="Capacity" class="form-control" />
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="Description"></label>
+                <textarea asp-for="Description" class="form-control" rows="10"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-4">
+                <label>Select a file to upload</label>
+                <span class="text-danger">@ViewData["FileError"]</span>
+                <div>
+                    <input class="bg-white border rounded w-100" type="file" name="file" />
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Create</button>
+            <button onclick="history.back()" class="btn btn-secondary">Cancel</button>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Location"></label><span class="text-danger">*</span>
-        <select asp-for="Location" class="form-select">
-            <option value="" selected disabled hidden>Choose a county</option>
-            <option value="Agder">Agder</option>
-            <option value="Innlandet">Innlandet</option>
-            <option value="Møre og Romsdal">Møre og Romsdal</option>
-            <option value="Nordland">Nordland</option>
-            <option value="Oslo">Oslo</option>
-            <option value="Rogaland">Rogaland</option>
-            <option value="Troms og Finnmark">Troms og Finnmark</option>
-            <option value="Trøndelag">Trøndelag</option>
-            <option value="Vestfold og Telemark">Vestfold og Telemark</option>
-            <option value="Vestland">Vestland</option>
-            <option value="Viken">Viken</option>
-        </select>
-        <span asp-validation-for="Location" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="PricePerNight"></label><span class="text-danger">*</span>
-        <input asp-for="PricePerNight" class="form-control" />
-        <span asp-validation-for="PricePerNight" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Description"></label>
-        <textarea asp-for="Description" class="form-control" rows="20"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Capacity"></label><span class="text-danger">*</span>
-        <input asp-for="Capacity" class="form-control" />
-        <span asp-validation-for="Capacity" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label>Select a file to upload</label>
-        <input type="file" name="file" />
-        <span class="text-danger">@ViewData["FileError"]</span>
-    </div>
-    <button type="submit" class="btn btn-primary">Create</button>
-    <a asp-action="Grid" class="btn btn-secondary">Back to Grid View</a>
+
 </form>
