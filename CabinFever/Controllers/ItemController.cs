@@ -169,6 +169,19 @@ public class ItemController : Controller
             // Clear the ModelState error for ImageUrl since we've provided a value now
             ModelState.Remove("ImageUrl");
         }
+        else
+        {
+            // Behold den eksisterende ImageUrl
+            var existingItem = await _itemRepository.GetItemById(item.Id);
+            if (existingItem != null)
+            {
+                item.ImageUrl = existingItem.ImageUrl;
+                ModelState.Remove("file");
+            }
+        }
+
+        // Fjern ModelState-feilen for ImageUrl siden vi har en verdi nå
+        ModelState.Remove("ImageUrl");
 
         if (ModelState.IsValid)
         {
@@ -179,6 +192,7 @@ public class ItemController : Controller
         _logger.LogWarning("[ItemController] Item update failed {@item}", item);
         return View(item);
     }
+
 
     [HttpGet]
     [Authorize]

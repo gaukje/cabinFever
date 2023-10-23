@@ -64,18 +64,37 @@ public class ItemRepository : IItemRepository
     {
         try
         {
+            // Find the existing item in the database using the item's Id
+            var existingItem = await _db.Items.FindAsync(item.Id);
+
+            // If an existing item is found, detach it from the DbContext
+            // This is to avoid Entity Framework from tracking two instances with the same key
+            if (existingItem != null)
+            {
+                _db.Entry(existingItem).State = EntityState.Detached;
+            }
+
+            // Update the item in the DbSet
+            // This marks the entity as Modified, so that it will be updated in the database when SaveChanges is called
             _db.Items.Update(item);
-            _db.Entry(item).State = EntityState.Modified;
+
+            // Save the changes to the database
             await _db.SaveChangesAsync();
+
+            // Return true to indicate that the update was successful
             return true;
         }
         catch (Exception e)
         {
+            // Log any errors that occur during the update
             _logger.LogError("[ItemRepository] item FindAsync(id) failed when updating the Id" +
                 "{Id:0000}, error message; {e}", item, e.Message);
+
+            // Return false to indicate that the update failed
             return false;
         }
     }
+
 
     public async Task<bool> Delete(int id)
     {
@@ -109,4 +128,3 @@ public class ItemRepository : IItemRepository
         return orders;
     }
 }
-
