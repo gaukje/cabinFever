@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization; // Import the necessary namespace for authorization
 using CabinFever.DAL;
 using Microsoft.AspNetCore.Mvc;
 using CabinFever.ViewModels;
