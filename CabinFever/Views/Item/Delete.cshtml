@@ -25,6 +25,6 @@
 
     <form asp-action="DeleteConfirmed" asp-route-id="@Model.Id" method="post">
         <button type="submit" class="btn btn-danger">Delete</button>
-        <a asp-action="Table" class="btn btn-secondary">Cancel</a>
+        <button onclick="event.preventDefault(); history.back();" class="btn btn-secondary">Cancel</button>
     </form>
 </div>
