@@ -63,8 +63,18 @@ public class ItemController : Controller
             _logger.LogError("[ItemController] Item not found for the ItemId {ItemId:0000}", id);
             return NotFound("Item not found for the ItemId");
         }
+
+        var user = await _userManager.FindByIdAsync(item.UserId);
+        if (user != null)
+        {
+            var userNameBeforeAt = user.UserName.Split('@')[0]; // Split the username by '@' and take the first part
+            ViewData["CreatorName"] = userNameBeforeAt;
+        }
+
         return View(item);
     }
+
+
 
     [HttpGet]
     [Authorize]

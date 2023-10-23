@@ -14,7 +14,7 @@
 
     <div class="row">
         <div class="col-lg-8">
-            <h4>Cabin hosted by</h4>
+            <h4>Cabin owned by: @ViewData["CreatorName"]</h4>
             @{
                 if (Model.Capacity > 1) {
                     <p>@Model.Capacity guests</p>
