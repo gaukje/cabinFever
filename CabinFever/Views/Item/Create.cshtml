@@ -1,9 +1,9 @@
 ﻿@model Item
 
 <form asp-action="Create" method="post" enctype="multipart/form-data">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center my-4">
         <div class="col-lg-8">
-            <h2>Create New Item</h2>
+            <h2 class="mb-3">Create New Item</h2>
 
             <div class="form-group mb-2">
                 <label asp-for="Name"></label><span class="text-danger">*</span>
@@ -46,7 +46,7 @@
             </div>
 
             <div class="form-group mb-4">
-                <label>Select a file to upload</label>
+                <label>Select an image to upload</label>
                 <span class="text-danger">@ViewData["FileError"]</span>
                 <div>
                     <input class="bg-white border rounded w-100" type="file" name="file" />

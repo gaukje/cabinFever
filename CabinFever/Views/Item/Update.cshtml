@@ -3,9 +3,9 @@
 <form asp-action="Update" method="post" enctype="multipart/form-data">
     <input type="hidden" asp-for="Id" />
     <input type="hidden" asp-for="UserId" />
-    <div class="row justify-content-center">
+    <div class="row justify-content-center my-4">
         <div class="col-lg-8">
-            <h2>Update Item</h2>
+            <h2 class="mb-3">Update Item</h2>
 
             <div class="form-group mb-2">
                 <label asp-for="Name"></label><span class="text-danger">*</span>
@@ -46,15 +46,22 @@
                 <textarea asp-for="Description" class="form-control" rows="10" id="description" onkeyup="charCount()"></textarea>
                 <span class="float-end" id="descriptionCounter">(Max characters: @Model.Description.Length / 5000)</span>
             </div>
-
+            <div class="row mb-2">
+                <div class="col-md-4">
+                    <span>Current image:</span>
+                    <div class="ratio ratio-16x9">
+                        <img src="@Model.ImageUrl" alt="Current Image" id="itemcard-image" />
+                    </div>
+                </div>
+            </div>
             <div class="form-group mb-4">
-                <label>Current image: </label>
-                <img src="@Model.ImageUrl" alt="Current Image" width="200" />
+                <label>Select an image to upload</label>
                 <span class="text-danger">@ViewData["FileError"]</span>
                 <div>
                     <input class="bg-white border rounded w-100" type="file" name="file" />
                 </div>
             </div>
+
             <button type="submit" class="btn btn-primary">Update</button>
             <button onclick="event.preventDefault(); history.back();" class="btn btn-secondary">Cancel</button>
         </div>
