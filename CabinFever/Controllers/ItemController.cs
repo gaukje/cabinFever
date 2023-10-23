@@ -181,6 +181,6 @@ public class ItemController : Controller
             _logger.LogError("[ItemController] Item deletion failed for the ItemId {ItemId:0000}", id);
             return BadRequest("Item deletion failed");
         }
-        return RedirectToAction(nameof(Table));
+        return RedirectToAction("MinSide", "Home");
     }
 }
