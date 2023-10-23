@@ -1,24 +1,40 @@
 ﻿@model IEnumerable<Order>
 
+@{
+    TimeZoneInfo osloTimeZone = TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
+}
+
 <table class="table">
     <thead>
         <tr>
             <th>Order ID</th>
-            <th>Order Date</th>
-            <th>Reservation time</th>
+            <th>Cabin Name</th>
+            <th>Order Time</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Duration (Days)</th>
             <th>Price</th>
             <th>Number of Guests</th>
+            <th>Status</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var order in Model)
         {
+            var today = DateTime.UtcNow.Date;
+            var status = today < order.FromDate.Date ? "Upcoming" :
+            today > order.ToDate.Date ? "Completed" : "Ongoing";
+            DateTime localOrderDate = TimeZoneInfo.ConvertTimeFromUtc(order.OrderDate, osloTimeZone);  // Convert to our time zone
             <tr>
                 <td>@order.OrderId</td>
-                <td>@order.OrderDate</td>
+                <td>@order.Item?.Name</td>
+                <td>@localOrderDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                <td>@order.FromDate.ToString("yyyy-MM-dd")</td>
+                <td>@order.ToDate.ToString("yyyy-MM-dd")</td>
                 <td>@(order.ToDate.Subtract(order.FromDate).Days)</td>
                 <td>@order.TotalPrice</td>
                 <td>@order.Guests</td>
+                <td>@status</td>
             </tr>
         }
     </tbody>
