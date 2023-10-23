@@ -55,7 +55,7 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Update</button>
-            <button onclick="history.back()" class="btn btn-secondary">Cancel</button>
+            <button onclick="event.preventDefault(); history.back();" class="btn btn-secondary">Cancel</button>
         </div>
     </div>
 </form>
