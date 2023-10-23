@@ -24,7 +24,9 @@
                 <td>@item.PricePerNight.ToString("0.00 NOK")</td>
                 <td class="item-description">@item.Description</td>
                 <td>
-                    <img src="@item.ImageUrl" alt="Item Image" style="max-width: 80px; max-height: 80px;" />
+                    <div class="ratio ratio-16x9">
+                        <img src="@item.ImageUrl" alt="Item Image" id="itemcard-image" />
+                    </div>
                 </td>
                 <td>
                     <a style="color: #007A6E" asp-controller="Item" asp-action="Update" asp-route-id="@item.Id">Update</a>
