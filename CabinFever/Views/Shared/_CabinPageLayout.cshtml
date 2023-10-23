@@ -34,7 +34,7 @@
                     <b>@Model.PricePerNight.ToString("N2", CultureInfo.CreateSpecificCulture("no-NO")) kr per night</b>
                 </div>
 
-                <form asp-controller="Order" asp-action="Create" method="post">
+                <form asp-controller="Order" asp-action="Create" method="post" id="reservationForm">
                     <div class="section mb-4">
                         <input type="hidden" name="ItemId" value="@Model.Id" />
                         <div class="row mb-2">
@@ -322,4 +322,20 @@
         document.getElementById("totalPrice").value = totalPrice;
         document.getElementById("totalPriceString").innerText = totalPrice.toLocaleString('no-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " kr";
     }
+
+    // Add this after your existing script
+    document.getElementById('reservationForm').addEventListener('submit', function (event) {
+        // Check if the FromDate and ToDate are empty
+        var fromDateValue = document.getElementById('fromDate').value;
+        var toDateValue = document.getElementById('toDate').value;
+
+        if (!fromDateValue || !toDateValue) {
+            // Prevent form submission
+            event.preventDefault();
+
+            // Show an error message to the user
+            alert('Please select both Check-In and Checkout dates before reserving.');
+        }
+    });
+
 </script>
