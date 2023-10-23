@@ -4,42 +4,51 @@ using Microsoft.EntityFrameworkCore;
 using CabinFever.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CabinFever.DAL;
-using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
-using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization; // Import the necessary namespace for authorization
+using System.Security.Claims; // Import the necessary namespace for handling user claims
+using Newtonsoft.Json; // Import Newtonsoft.Json for JSON handling
 
 namespace CabinFever.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly ItemDbContext _itemDbContext;
-        private readonly ILogger<OrderController> _logger;
+        private readonly ItemDbContext _itemDbContext;  // Define a reference to the ItemDbContext
+        private readonly ILogger<OrderController> _logger; // Define a logger for OrderController
 
         public OrderController(ItemDbContext itemDbContext, ILogger<OrderController> logger)
         {
-            _itemDbContext = itemDbContext;
-            _logger = logger;
+            _itemDbContext = itemDbContext; // Initialize the ItemDbContext
+            _logger = logger; // Initialize the logger
         }
 
+        // An action method to display a table of orders
         public async Task<IActionResult> Table()
         {
+            // Retrieve a list of orders from the database
             List<Order> orders = await _itemDbContext.Orders.ToListAsync();
+
+            // Return a view with the list of orders
             return View(orders);
         }
 
+        // Define an action method to create a new order (GET request)
         [HttpGet]
         public IActionResult Create()
         {
+            // Return a view for creating a new order
             return View();
         }
 
+        // Define an action method to retrieve date ranges for a specific item (GET request)
         [HttpGet]
         public IActionResult GetDateRange(int itemId)
         {
+            // Retrieve date ranges from the database based on the item ID
             var dateRanges = _itemDbContext.Orders.Where(order => order.ItemId == itemId && order.ToDate >= DateTime.Today)
                 .Select(order => new { order.FromDate, order.ToDate })
                 .ToList();
 
+            // Create a list of date strings from the retrieved date ranges
             var dateList = new List<String>();
 
             foreach (var dateRange in dateRanges)
@@ -50,26 +59,32 @@ namespace CabinFever.Controllers
                     dateList.Add(stringDate);
                 }
             }
+
+            // Return the dateList as JSON
             return Json(dateList);
         }
 
+        // Define an action method to create a new order (POST request)
         [HttpPost]
         public async Task<IActionResult> Create(Order order)
         {
-            
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);            // Hent UserId
-            order.UserId = userId;                                              // Sett UserId på order
+            // Retrieve the user's ID from claims
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);        
+
+            // Set the user's ID on the order
+            order.UserId = userId;                                             
 
             // Log the order state
             _logger.LogInformation("Order before saving: {@Order}", order);
 
-            // Oppdater ModelState manuelt
+            // Manually update the ModelState
             ModelState.Clear();
             TryValidateModel(order);
 
-            // Sjekker om ModelState er gyldig og 'logger' dersom bruker har oppgitt info som ikke oppfyller krav
+            // Check if ModelState is valid and 'logger' if user has given info that does not fulfill the requirments
             if (!ModelState.IsValid)
             {
+                // Log model validation errors
                 foreach (var state in ModelState)
                 {
                     foreach (var error in state.Value.Errors)
@@ -77,12 +92,13 @@ namespace CabinFever.Controllers
                         _logger.LogError("Model validation error for {Key}: {ErrorMessage}", state.Key, error.ErrorMessage);
                     }
                 }
-                return View(order);
+                return View(order); // Return the view with validation errors
             }
 
             try
             {
-                _itemDbContext.Orders.Add(order);           //Legger til ordre i database
+                // Add the order to the database and save changes
+                _itemDbContext.Orders.Add(order);           
                 await _itemDbContext.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -90,7 +106,8 @@ namespace CabinFever.Controllers
                 _logger.LogError(ex, "Error occurred while saving order: {@Order}", order);     //Log hvis feil oppstår
                 throw; 
             }
-            //return RedirectToAction("Index", "Home");
+            
+            // Redirect to the OrderConfirmation action with the order ID
             return RedirectToAction("OrderConfirmation", new { orderId = order.OrderId });
 
         }
