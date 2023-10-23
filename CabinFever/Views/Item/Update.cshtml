@@ -1,6 +1,6 @@
 ﻿@model Item
 
-<form asp-action="Update" method="post">
+<form asp-action="Update" method="post" enctype="multipart/form-data">
     <input type="hidden" asp-for="Id" />
     <input type="hidden" asp-for="UserId" />
     <div class="row justify-content-center">
@@ -49,6 +49,7 @@
 
             <div class="form-group mb-4">
                 <label>Select a file to upload</label>
+                <img src="@Model.ImageUrl" alt="Current Image" width="200" />
                 <span class="text-danger">@ViewData["FileError"]</span>
                 <div>
                     <input class="bg-white border rounded w-100" type="file" name="file" />

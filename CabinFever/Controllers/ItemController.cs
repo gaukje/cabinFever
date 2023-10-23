@@ -146,13 +146,25 @@ public class ItemController : Controller
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> Update(Item item)
+    public async Task<IActionResult> Update(Item item, IFormFile file)
     {
+        if (file != null && file.Length > 0)
+        {
+            var filePath = Path.Combine(_env.WebRootPath, "images", file.FileName);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+            item.ImageUrl = "/images/" + file.FileName;
+            // Clear the ModelState error for ImageUrl since we've provided a value now
+            ModelState.Remove("ImageUrl");
+        }
+
         if (ModelState.IsValid)
         {
             bool returnOk = await _itemRepository.Update(item);
             if (returnOk)
-                return RedirectToAction(nameof(Table));
+                return RedirectToAction("Minside", "Home");
         }
         _logger.LogWarning("[ItemController] Item update failed {@item}", item);
         return View(item);
