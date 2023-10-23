@@ -22,7 +22,7 @@
                 </td>
                 <td>@item.Location</td>
                 <td>@item.PricePerNight.ToString("0.00 NOK")</td>
-                <td>@(item.Description.Length > 150 ? item.Description.Substring(0, 150) + "..." : item.Description)</td>
+                <td class="item-description">@item.Description</td>
                 <td>
                     <img src="@item.ImageUrl" alt="Item Image" style="max-width: 80px; max-height: 80px;" />
                 </td>
@@ -34,3 +34,38 @@
         }
     </table>
 </div>
+
+<!-- The following script is used to shorten description based on screen width.
+    (On narrower screens the description is now cut short with a "...") -->
+<script>
+    function debounce(func, timeout = 300) {
+        let timer;
+        return (...args) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => { func.apply(this, args); }, timeout);
+        };
+    }
+
+    function truncateDescription() {
+        var descriptions = document.querySelectorAll('.item-description');
+        descriptions.forEach(function (desc) {
+            var text = desc.getAttribute('data-fulltext');
+            if (!text) {
+                text = desc.innerText;
+                desc.setAttribute('data-fulltext', text);
+            }
+
+            var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            var limit = width < 768 ? 50 : 150; // 768px is a common breakpoint for tablets
+            if (text.length > limit) {
+                desc.innerText = text.substring(0, limit) + '...';
+            } else {
+                desc.innerText = text;
+            }
+        });
+    }
+
+    window.onload = truncateDescription;
+    window.onresize = debounce(truncateDescription);
+</script>
+
