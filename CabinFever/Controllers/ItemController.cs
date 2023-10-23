@@ -24,49 +24,6 @@ public class ItemController : Controller
         _env = env;
     }
 
-    [HttpGet]
-    public IActionResult UploadFile()
-    {
-        return View();
-    }
-
-    // Midlertidig opplasting av bilder
-    [HttpPost]
-    public async Task<IActionResult> UploadFile(IFormFile file)
-    {
-        // Sjekk om filen er til stede
-        if (file == null || file.Length == 0)
-        {
-            ViewBag.Message = "File is not selected!";
-            return View();
-        }
-
-        // Sjekk om filnavnet er til stede
-        if (string.IsNullOrWhiteSpace(file.FileName))
-        {
-            ViewBag.Message = "File name is not valid!";
-            return View();
-        }
-
-        // Sjekk om wwwroot er konfigurert
-        if (string.IsNullOrWhiteSpace(_env.WebRootPath))
-        {
-            ViewBag.Message = "Server configuration error!";
-            return View();
-        }
-
-        // Bygg filstien og lagre filen
-        var filePath = Path.Combine(_env.WebRootPath, "images", file.FileName);
-        using (var stream = new FileStream(filePath, FileMode.Create))
-        {
-            await file.CopyToAsync(stream);
-        }
-
-        ViewBag.Message = "File uploaded successfully!";
-        return View();
-    }
-
-
     // Private, so the page isn't available for editing on .../Item/Table
     private async Task<IActionResult> Table()
     {
