@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CabinFever.Migrations
 {
     [DbContext(typeof(ItemDbContext))]
-    [Migration("20231011130035_InitialCreate")]
+    [Migration("20231023082757_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -34,7 +34,8 @@ namespace CabinFever.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(200)
+                        .IsRequired()
+                        .HasMaxLength(5000)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("FromDate")
@@ -51,6 +52,7 @@ namespace CabinFever.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Location")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -110,9 +112,6 @@ namespace CabinFever.Migrations
                     b.Property<int>("ItemId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ItemId1")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("TEXT");
 
@@ -123,14 +122,11 @@ namespace CabinFever.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("OrderId");
 
                     b.HasIndex("ItemId");
-
-                    b.HasIndex("ItemId1");
 
                     b.HasIndex("UserId");
 
@@ -356,20 +352,14 @@ namespace CabinFever.Migrations
             modelBuilder.Entity("CabinFever.Models.Order", b =>
                 {
                     b.HasOne("CabinFever.Models.Item", "Item")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
-                    b.HasOne("CabinFever.Models.Item", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("ItemId1");
-
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Item");
 

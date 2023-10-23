@@ -25,10 +25,10 @@ namespace CabinFever.Models
 
             // Configure relationship between Order and Item
             modelBuilder.Entity<Order>()
-                .HasOne(o => o.Item)  // Assuming you add a navigation property of type Item in Order class
-                .WithMany()
-                .HasForeignKey(o => o.ItemId)  // Assuming you add a foreign key property named ItemId in Order class
-                .OnDelete(DeleteBehavior.SetNull); // Adjust as needed, e.g. .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(o => o.Item)
+                .WithMany(i => i.Orders)
+                .HasForeignKey(o => o.ItemId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             // Optionally, add more configurations for ItemAvailability here if needed
         }

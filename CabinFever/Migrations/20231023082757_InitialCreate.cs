@@ -167,9 +167,9 @@ namespace CabinFever.Migrations
                     FromDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ToDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Capacity = table.Column<int>(type: "INTEGER", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", maxLength: 200, nullable: true),
+                    Description = table.Column<string>(type: "TEXT", maxLength: 5000, nullable: false),
                     Fylke = table.Column<string>(type: "TEXT", nullable: true),
-                    Location = table.Column<string>(type: "TEXT", nullable: true),
+                    Location = table.Column<string>(type: "TEXT", nullable: false),
                     ImageUrl = table.Column<string>(type: "TEXT", nullable: false),
                     IsAvailable = table.Column<bool>(type: "INTEGER", nullable: true),
                     UserId = table.Column<string>(type: "TEXT", nullable: true)
@@ -212,13 +212,12 @@ namespace CabinFever.Migrations
                     OrderId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     OrderDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: true),
                     TotalPrice = table.Column<decimal>(type: "TEXT", nullable: false),
                     ItemId = table.Column<int>(type: "INTEGER", nullable: false),
                     FromDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ToDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Guests = table.Column<int>(type: "INTEGER", nullable: false),
-                    ItemId1 = table.Column<int>(type: "INTEGER", nullable: true)
+                    Guests = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -227,19 +226,13 @@ namespace CabinFever.Migrations
                         name: "FK_Orders_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Orders_Items_ItemId",
                         column: x => x.ItemId,
                         principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.SetNull);
-                    table.ForeignKey(
-                        name: "FK_Orders_Items_ItemId1",
-                        column: x => x.ItemId1,
-                        principalTable: "Items",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -293,11 +286,6 @@ namespace CabinFever.Migrations
                 name: "IX_Orders_ItemId",
                 table: "Orders",
                 column: "ItemId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Orders_ItemId1",
-                table: "Orders",
-                column: "ItemId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_UserId",
