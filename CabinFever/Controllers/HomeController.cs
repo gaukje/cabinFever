@@ -50,6 +50,11 @@ namespace CabinFever.Controllers
             return View();
         }
 
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> MinSide() // Gjør denne metoden asynkron
         {
             var items = await _itemRepository.GetAll(); // Hent alle items fra databasen
