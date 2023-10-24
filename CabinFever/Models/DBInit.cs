@@ -6,15 +6,19 @@ namespace CabinFever.Models;
 
 public class DBInit
 {
+    // This method is responsible for seeding initial data into the database.
     public static void Seed(IApplicationBuilder app)
     {
+        // Create a scope to access services.
         using var serviceScope = app.ApplicationServices.CreateScope();
         ItemDbContext context = serviceScope.ServiceProvider.GetRequiredService<ItemDbContext>();
         UserManager<IdentityUser> userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
         // context.Database.EnsureDeleted();
+
+        // Ensure the database is created.
         context.Database.EnsureCreated();
 
-        // Legg til brukere
+        // Add users if they don't exist.
         if (!context.Users.Any())
         {
             var users = new List<IdentityUser>
@@ -29,7 +33,7 @@ public class DBInit
             }
         }
 
-        // Legg til items
+        // Add items if they don't exist.
         if (!context.Items.Any())
         {
             var user1Id = userManager.FindByEmailAsync("user1@example.com").Result.Id;
@@ -87,9 +91,9 @@ public class DBInit
 
         if (!context.ItemAvailability.Any())
         {
-            // Legg til item availabilities
+            // Add item availabilities if they don't exist.
             var startDate = DateTime.Now;
-            var endDate = startDate.AddDays(60); // 60 dager fra nå
+            var endDate = startDate.AddDays(60); // 60 days from now
 
             var itemAvailabilities = new List<ItemAvailability>();
 
@@ -99,9 +103,10 @@ public class DBInit
                 {
                     var isAvailable = true;
 
-                    // Eksempel: Gjør item utilgjengelig på tilfeldige dager
+                    // Example: Make items unavailable on random days.
                     if (date.DayOfWeek == DayOfWeek.Friday && new Random().Next(2) == 0) // 50% sjanse for at en fredag er utilgjengelig
                     {
+                        // 50% chance for an item to be unavailable on a Friday.
                         isAvailable = false;
                     }
 
@@ -118,6 +123,7 @@ public class DBInit
             context.SaveChanges();
         }
 
+        // Add orders if they don't exist.
         if (!context.Orders.Any())
         {
             var user1Id = userManager.FindByEmailAsync("user1@example.com").Result.Id;
@@ -126,20 +132,20 @@ public class DBInit
             {
                 new Order
                 {
-                    OrderDate = DateTime.UtcNow,  // Bruker UTC tidspunkt
+                    OrderDate = DateTime.UtcNow,  // Use UTC timestamp
                     TotalPrice = 4000,
                     ItemId = 1,
-                    FromDate = DateTime.UtcNow,  // Bruker UTC tidspunkt
-                    ToDate = DateTime.UtcNow.AddDays(5),  // Bruker UTC tidspunkt
+                    FromDate = DateTime.UtcNow,  // Use UTC timestamp
+                    ToDate = DateTime.UtcNow.AddDays(5),  // Use UTC timestamp
                     UserId = user1Id
                 },
                 new Order
                 {
-                    OrderDate = DateTime.UtcNow,  // Bruker UTC tidspunkt
+                    OrderDate = DateTime.UtcNow,  // Use UTC timestamp
                     TotalPrice = 3000,
                     ItemId = 2,
-                    FromDate = DateTime.UtcNow,  // Bruker UTC tidspunkt
-                    ToDate = DateTime.UtcNow.AddDays(3),  // Bruker UTC tidspunkt
+                    FromDate = DateTime.UtcNow,  // Use UTC timestamp
+                    ToDate = DateTime.UtcNow.AddDays(3),  // Use UTC timestamp
                     UserId = user2Id
                 },
             };
