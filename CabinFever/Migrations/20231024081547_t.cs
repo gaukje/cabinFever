@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CabinFever.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class t : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

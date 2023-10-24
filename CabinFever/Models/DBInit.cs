@@ -39,9 +39,9 @@ public class DBInit
             {
                 new Item
                 {
-                    Name = "Hytte1",
+                    Name = "Oslomarka",
                     PricePerNight = 2000,
-                    Description = "Ekstrem hytte",
+                    Description = "The most outstanding cabin in the heart of Norway",
                     ImageUrl = "/images/hytte_stock_1.jpg",
                     UserId = user1Id,
                     Capacity = 4,
@@ -50,9 +50,9 @@ public class DBInit
 
                 new Item
                 {
-                    Name = "Hytte2",
+                    Name = "Haugesund",
                     PricePerNight = 3000,
-                    Description = "Ekstrem hytte",
+                    Description = "Nothing else like the coziest cabin in Haugesund perfect for a romantic get away",
                     ImageUrl = "/images/hytte_stock_2.jpg",
                     UserId = user1Id,
                     Capacity = 2,
@@ -61,9 +61,9 @@ public class DBInit
 
                 new Item
                 {
-                    Name = "Hytte3",
+                    Name = "Geilo",
                     PricePerNight = 4000,
-                    Description = "Ekstrem hytte",
+                    Description = "Have an unforgettable night with the family in this memorable viking cabin",
                     ImageUrl = "/images/hytte_stock_3.jpg",
                     UserId = user1Id, 
                     Capacity = 7,
@@ -72,9 +72,9 @@ public class DBInit
 
                 new Item
                 {
-                    Name = "Hytte4",
+                    Name = "Jotunheimen",
                     PricePerNight = 2400,
-                    Description = "Ekstrem hytte",
+                    Description = "Nelson Mandelas favorite cabin in Norway, RIP",
                     ImageUrl = "/images/hytte_stock_4.jpg",
                     UserId = user2Id,
                     Capacity = 5,

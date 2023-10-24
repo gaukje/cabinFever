@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CabinFever.Migrations
 {
     [DbContext(typeof(ItemDbContext))]
-    [Migration("20231023082757_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20231024081547_t")]
+    partial class t
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
