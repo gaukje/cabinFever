@@ -29,6 +29,7 @@ public class DBInit
 
             foreach (var user in users)
             {
+                //password for user 1 and 2, for testing purposes
                 userManager.CreateAsync(user, "passORD1!").Wait();
             }
         }
@@ -43,9 +44,9 @@ public class DBInit
             {
                 new Item
                 {
-                    Name = "Hytte1",
+                    Name = "Oslomarka",
                     PricePerNight = 2000,
-                    Description = "Ekstrem hytte",
+                    Description = "The most outstanding cabin in the heart of Norway.",
                     ImageUrl = "/images/hytte_stock_1.jpg",
                     UserId = user1Id,
                     Capacity = 4,
@@ -54,9 +55,9 @@ public class DBInit
 
                 new Item
                 {
-                    Name = "Hytte2",
+                    Name = "Haugesund",
                     PricePerNight = 3000,
-                    Description = "Ekstrem hytte",
+                    Description = "Nothing else like the coziest cabin in Haugesund perfect for a romantic get away.",
                     ImageUrl = "/images/hytte_stock_2.jpg",
                     UserId = user1Id,
                     Capacity = 2,
@@ -65,24 +66,43 @@ public class DBInit
 
                 new Item
                 {
-                    Name = "Hytte3",
+                    Name = "Geilo",
                     PricePerNight = 4000,
-                    Description = "Ekstrem hytte",
+                    Description = "Have an unforgettable night with the family in this memorable viking cabin.",
                     ImageUrl = "/images/hytte_stock_3.jpg",
-                    UserId = user1Id, 
+                    UserId = user1Id,
                     Capacity = 7,
                     Location = "Viken"
                 },
 
                 new Item
                 {
-                    Name = "Hytte4",
+                    Name = "Jotunheimen",
                     PricePerNight = 2400,
-                    Description = "Ekstrem hytte",
+                    Description = "Nelson Mandelas favorite cabin in Norway, RIP.",
                     ImageUrl = "/images/hytte_stock_4.jpg",
                     UserId = user2Id,
                     Capacity = 5,
                     Location = "Innlandet"
+                },
+                new Item
+                {
+                    Name = "Kristiansand",
+                    PricePerNight = 3900,
+                    Description = "Idyllic cabin in Kristiansand right by the animal park, for the kids. Greate for a family trip you'll never forget. ",
+                    ImageUrl = "/images/hytte_stock_13.jpg",
+                    UserId = user2Id,
+                    Capacity = 5,
+                    Location = "Agder"
+                },new Item
+                {
+                    Name = "Husøy",
+                    PricePerNight = 6700,
+                    Description = "At the top of the Husøy mountains you will find this beauty of a cabin, bring your friends and make this a trip you will never forget.",
+                    ImageUrl = "/images/hytte_stock_14.jpg",
+                    UserId = user2Id,
+                    Capacity = 5,
+                    Location = "Troms"
                 },
             };
             context.AddRange(items);
@@ -137,7 +157,8 @@ public class DBInit
                     ItemId = 1,
                     FromDate = DateTime.UtcNow,  // Use UTC timestamp
                     ToDate = DateTime.UtcNow.AddDays(5),  // Use UTC timestamp
-                    UserId = user1Id
+                    UserId = user1Id,
+                    Guests = 2
                 },
                 new Order
                 {
@@ -146,7 +167,32 @@ public class DBInit
                     ItemId = 2,
                     FromDate = DateTime.UtcNow,  // Use UTC timestamp
                     ToDate = DateTime.UtcNow.AddDays(3),  // Use UTC timestamp
-                    UserId = user2Id
+                    UserId = user2Id,
+                    Guests = 4
+                },
+                new Order
+                {
+                    OrderDate = DateTime.UtcNow,  // Use UTC timestamp
+                    TotalPrice = 5000,
+                    ItemId = 2,
+                    // Set FromDate to a date in the past (e.g., 5 days ago)
+                    FromDate = DateTime.UtcNow.AddDays(-5),  // Use UTC timestamp
+                    // Set ToDate to a date in the past (e.g., 2 days ago)
+                    ToDate = DateTime.UtcNow.AddDays(-2),  // Use UTC timestamp
+                    UserId = user2Id,
+                    Guests = 3
+                },
+                new Order
+                {
+                    OrderDate = DateTime.UtcNow,  // Use UTC timestamp
+                    TotalPrice = 9500,
+                    ItemId = 2,
+                    // Set FromDate to a future date (e.g., 5 days from now)
+                    FromDate = DateTime.UtcNow.AddDays(5),  // Use UTC timestamp
+                    // Set ToDate to a future date (e.g., 8 days from now)
+                    ToDate = DateTime.UtcNow.AddDays(8),  // Use UTC timestamp
+                    UserId = user1Id,
+                    Guests = 5
                 },
             };
             context.AddRange(orders);
@@ -154,4 +200,3 @@ public class DBInit
         }
     }
 }
-
