@@ -12,43 +12,42 @@ namespace CabinFever.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly ItemDbContext _itemDbContext;  // Define a reference to the ItemDbContext
-        private readonly ILogger<OrderController> _logger; // Define a logger for OrderController
+        private readonly ItemDbContext _itemDbContext;  // Reference to the ItemDbContext
+        private readonly ILogger<OrderController> _logger; // Logger for OrderController
 
         public OrderController(ItemDbContext itemDbContext, ILogger<OrderController> logger)
         {
-            _itemDbContext = itemDbContext; // Initialize the ItemDbContext
-            _logger = logger; // Initialize the logger
+            _itemDbContext = itemDbContext; // Initialize ItemDbContext
+            _logger = logger; // Initialize logger
         }
 
         // An action method to display a table of orders
         public async Task<IActionResult> Table()
         {
-            // Retrieve a list of orders from the database
+            // Retrieving a list of orders from the database
             List<Order> orders = await _itemDbContext.Orders.ToListAsync();
 
-            // Return a view with the list of orders
+            // Returning a view with the list of orders
             return View(orders);
         }
 
-        // Define an action method to create a new order (GET request)
+        // Get method to create a new order.
         [HttpGet]
         public IActionResult Create()
         {
-            // Return a view for creating a new order
             return View();
         }
 
-        // Define an action method to retrieve date ranges for a specific item (GET request)
+        // Action method to retriece date ranges for a specific item.
         [HttpGet]
         public IActionResult GetDateRange(int itemId)
         {
-            // Retrieve date ranges from the database based on the item ID
+            // Retrieving date ranges from the database based on the item ID
             var dateRanges = _itemDbContext.Orders.Where(order => order.ItemId == itemId && order.ToDate >= DateTime.Today)
                 .Select(order => new { order.FromDate, order.ToDate })
                 .ToList();
 
-            // Create a list of date strings from the retrieved date ranges
+            // Creating a list of date strings from the retrieved date ranges
             var dateList = new List<String>();
 
             foreach (var dateRange in dateRanges)
@@ -60,28 +59,26 @@ namespace CabinFever.Controllers
                 }
             }
 
-            // Return the dateList as JSON
+            // Returning the dateList as JSON
             return Json(dateList);
         }
 
-        // Define an action method to create a new order (POST request)
+        // Post method to create a new order.
         [HttpPost]
         public async Task<IActionResult> Create(Order order)
         {
-            // Retrieve the user's ID from claims
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);        
+            // Retrieving the user's ID from claims
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); 
+            order.UserId = userId;                                              // user's ID on the order      
 
-            // Set the user's ID on the order
-            order.UserId = userId;                                             
-
-            // Log the order state
+            // Logging order state
             _logger.LogInformation("Order before saving: {@Order}", order);
 
-            // Manually update the ModelState
+            // Manually updating the ModelState
             ModelState.Clear();
             TryValidateModel(order);
 
-            // Check if ModelState is valid and 'logger' if user has given info that does not fulfill the requirments
+            // Checking if ModelState is valid and log if content does not meet requirements
             if (!ModelState.IsValid)
             {
                 // Log model validation errors
@@ -103,29 +100,29 @@ namespace CabinFever.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while saving order: {@Order}", order);     //Log hvis feil oppstår
+                _logger.LogError(ex, "Error occurred while saving order: {@Order}", order);     //Log if error occurs
                 throw; 
             }
             
-            // Redirect to the OrderConfirmation action with the order ID
+            // Redirecting to the OrderConfirmation action with the order ID
             return RedirectToAction("OrderConfirmation", new { orderId = order.OrderId });
 
         }
 
         public IActionResult OrderConfirmation(int orderId)
         {
-            // Retrieve the order details from the database based on orderId
+            // Retrieving the order details from the database based on orderId
             var order = _itemDbContext.Orders.FirstOrDefault(o => o.OrderId == orderId);
 
-            // Check if the order was found
+            // Checking if the order was found
             if (order == null)
             {
-                // Handle the case where the order with the given ID doesn't exist
-                return NotFound(); // You might want to return a 404 Not Found response or handle it differently
+                // case where the order with the given ID doesn't exist
+                return NotFound();
             }
 
             // Pass the order to the view
-            return View("OrderConfirmation", order); // Here you're passing the order to the view
+            return View("OrderConfirmation", order);
         }   
     }
 }
