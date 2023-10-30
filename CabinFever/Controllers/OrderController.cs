@@ -69,7 +69,38 @@ namespace CabinFever.Controllers
         {
             // Retrieving the user's ID from claims
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); 
-            order.UserId = userId;                                              // user's ID on the order      
+
+            // Declare the item variable here
+            Item item;
+
+            // Retrieve the Item being ordered to check its UserId
+            try
+            {
+                item = await _itemDbContext.Items.FindAsync(order.ItemId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while finding item: ItemId {ItemId}", order.ItemId);
+                return NotFound();
+            }
+
+            if (item == null)
+            {
+                // Item not found, handle accordingly
+                return NotFound();
+            }
+
+            // Check if the user is trying to order their own cabin
+            if (item.UserId == userId)
+            {
+                // Log the attempt and return an error or redirect
+                _logger.LogWarning("User attempted to order their own cabin: UserId {UserId}, ItemId {ItemId}", userId, item.Id);
+                ModelState.AddModelError(string.Empty, "You cannot order your own cabin.");
+                return RedirectToAction("Details", "Item", new { id = order.ItemId, error = "You cannot order your own cabin." });
+            }
+
+            // Set the user's ID on the order
+            order.UserId = userId;
 
             // Logging order state
             _logger.LogInformation("Order before saving: {@Order}", order);

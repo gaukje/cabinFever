@@ -64,6 +64,12 @@
 
                     </div>
                     <p><span class="text-danger" id="errorDateOverlap"></span></p>
+                    @if (ViewData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewData["ErrorMessage"]
+                        </div>
+                    }
 
                     <div class="section d-none mb-4" id="listReserve">
                         <div class="row">

@@ -67,7 +67,7 @@ public class ItemController : Controller
     }
 
     //Details action method
-    public async Task<IActionResult> Details(int id)
+    public async Task<IActionResult> Details(int id, string error = null)
     {
         // Retrive an item by ID
         var item = await _itemRepository.GetItemById(id);
@@ -85,6 +85,12 @@ public class ItemController : Controller
         {
             var userNameBeforeAt = user.UserName.Split('@')[0]; // Split the username by '@' and take the first part
             ViewData["CreatorName"] = userNameBeforeAt;
+        }
+
+        // Set the error message in ViewData if it exists
+        if (!string.IsNullOrEmpty(error))
+        {
+            ViewData["ErrorMessage"] = error;
         }
 
         return View(item);
