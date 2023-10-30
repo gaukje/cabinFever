@@ -162,16 +162,6 @@ public class DBInit
                 },
                 new Order
                 {
-                    OrderDate = DateTime.UtcNow.AddDays(-10).AddHours(2).AddMinutes(30),  // Use UTC timestamp
-                    TotalPrice = 9000,
-                    ItemId = 2,
-                    FromDate = DateTime.UtcNow,  // Use UTC timestamp
-                    ToDate = DateTime.UtcNow.AddDays(3),  // Use UTC timestamp
-                    UserId = user2Id,
-                    Guests = 4
-                },
-                new Order
-                {
                     OrderDate = DateTime.UtcNow.AddDays(-12).AddHours(-1).AddMinutes(45),  // Use UTC timestamp
                     TotalPrice = 12000,
                     ItemId = 3,
@@ -181,6 +171,16 @@ public class DBInit
                     ToDate = DateTime.UtcNow.AddDays(-2),  // Use UTC timestamp
                     UserId = user2Id,
                     Guests = 3
+                },
+                new Order
+                {
+                    OrderDate = DateTime.UtcNow.AddDays(-10).AddHours(2).AddMinutes(30),  // Use UTC timestamp
+                    TotalPrice = 9000,
+                    ItemId = 2,
+                    FromDate = DateTime.UtcNow,  // Use UTC timestamp
+                    ToDate = DateTime.UtcNow.AddDays(3),  // Use UTC timestamp
+                    UserId = user2Id,
+                    Guests = 4
                 },
                 new Order
                 {
