@@ -168,10 +168,8 @@ namespace CabinFever.Migrations
                     ToDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Capacity = table.Column<int>(type: "INTEGER", nullable: false),
                     Description = table.Column<string>(type: "TEXT", maxLength: 5000, nullable: false),
-                    Fylke = table.Column<string>(type: "TEXT", nullable: true),
                     Location = table.Column<string>(type: "TEXT", nullable: false),
                     ImageUrl = table.Column<string>(type: "TEXT", nullable: false),
-                    IsAvailable = table.Column<bool>(type: "INTEGER", nullable: true),
                     UserId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>

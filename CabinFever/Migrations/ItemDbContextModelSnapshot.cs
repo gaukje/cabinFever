@@ -38,15 +38,9 @@ namespace CabinFever.Migrations
                     b.Property<DateTime>("FromDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Fylke")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<bool?>("IsAvailable")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Location")
                         .IsRequired()

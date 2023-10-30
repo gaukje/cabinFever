@@ -43,8 +43,6 @@ namespace CabinFever.Models
         [StringLength(5000)]
         public string? Description { get; set; }
 
-        public string? Fylke { get; set; }
-
         // The location of the cabin (e.g., city or region). A must
         [Required]
         public string? Location { get; set; }
@@ -52,9 +50,6 @@ namespace CabinFever.Models
         // The URL of an image representing the cabin. A must
         [Required]
         public string? ImageUrl { get; set; }
-
-        // Indicates whether the cabin is currently available.
-        public bool? IsAvailable { get; set; }
 
         // Foreign key for the associated user (owner) in the AspNetUsers table.
         public string? UserId { get; set; }

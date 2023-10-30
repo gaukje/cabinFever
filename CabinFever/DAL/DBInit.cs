@@ -60,7 +60,7 @@ public class DBInit
                     Description = "Nothing else like the coziest cabin in Haugesund perfect for a romantic get away.",
                     ImageUrl = "/images/hytte_stock_2.jpg",
                     UserId = user1Id,
-                    Capacity = 2,
+                    Capacity = 6,
                     Location = "Vestland"
                 },
 
@@ -102,7 +102,7 @@ public class DBInit
                     ImageUrl = "/images/hytte_stock_14.jpg",
                     UserId = user2Id,
                     Capacity = 5,
-                    Location = "Troms"
+                    Location = "Troms og Finnmark"
                 },
             };
             context.AddRange(items);

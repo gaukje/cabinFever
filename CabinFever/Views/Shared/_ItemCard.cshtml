@@ -25,15 +25,7 @@
                            asp-action="Details"
                            asp-route-id="@Model.Id">@Model.Name</a>
                     </b>
-
-                    @if (Model.Location != null && Model.Fylke != null)
-                    {
-                        <p>@Model.Location, @Model.Fylke</p>
-                    } else
-                    {
                         <p>@Model.Location</p>
-                    }
-
                 </div>
                 <div>
                     <b class="text-end">
